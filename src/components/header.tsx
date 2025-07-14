@@ -30,9 +30,9 @@ export default function Header() {
               <a href="#features" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Features
               </a>
-              <a href="#pricing" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
-                Pricing
-              </a>
+              <Link href="/bulk" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                Bulk Generator
+              </Link>
               <Link href="/blog" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Blog
               </Link>

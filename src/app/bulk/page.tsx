@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Download, Upload, CheckCircle, AlertCircle, X, FileText, Database, Settings, BarChart3, Crown, Palette, Layers, RefreshCw, XCircle, Clock } from "lucide-react";
+import { Download, Upload, CheckCircle, AlertTriangle, FileText, Database, Settings, BarChart3, Crown, Palette, Layers, RefreshCw, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import QRCode from "qrcode";
 import JSZip from "jszip";
@@ -158,118 +158,140 @@ https://event.com/register,Event Registration,Event,event_qr`;
     URL.revokeObjectURL(url);
   };
 
-  const generateBulkQRCodes = async () => {
-    let dataToProcess: BulkQRData[] = [];
-    
-    if (inputMethod === "csv") {
-      dataToProcess = csvData;
-    } else {
-      const urlList = urls.split('\n').map(url => url.trim()).filter(url => url.length > 0);
-      dataToProcess = urlList.map((url, index) => ({
-        id: `manual-${index}`,
-        url,
-        name: `QR Code ${index + 1}`,
-        category: 'Manual'
-      }));
-    }
-    
-    if (dataToProcess.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please enter at least one URL or upload a CSV file",
-        variant: "destructive"
-      });
-      return;
-    }
+const generateBulkQRCodes = async () => {
+  let dataToProcess: BulkQRData[] = [];
 
-    if (dataToProcess.length > 1000) {
-      toast({
-        title: "Error", 
-        description: "Maximum 1000 URLs allowed for bulk generation",
-        variant: "destructive"
-      });
-      return;
-    }
+  // Source data from input or CSV
+  if (inputMethod === "csv") {
+    dataToProcess = csvData;
+  } else {
+    const urlList = urls
+      .split('\n')
+      .map(url => url.trim())
+      .filter(url => url.length > 0);
 
-    setIsGenerating(true);
-    setProgress(0);
-    setActiveTab("progress");
-    const newResults: BulkQRResult[] = [];
-    const startTime = Date.now();
-    let successCount = 0;
-    const categoryCounts: Record<string, number> = {};
+    dataToProcess = urlList.map((url, index) => ({
+      id: `manual-${Date.now()}-${index}`,
+      url,
+      name: `QR Code ${index + 1}`,
+      category: "Manual"
+    }));
+  }
 
-    for (let i = 0; i < dataToProcess.length; i++) {
-      const item = dataToProcess[i];
-      
-      try {
-        if (!isValidURL(item.url)) {
-          newResults.push({
-            ...item,
-            success: false,
-            error: "Invalid URL format",
-            filename: `${item.customFilename || item.name || `qr_${i + 1}`}_error.txt`
-          });
-        } else {
-          const qrOptions = {
-            width: parseInt(size),
-            margin: businessSettings.margin,
-            color: {
-              dark: businessSettings.foregroundColor,
-              light: businessSettings.backgroundColor
-            },
-            errorCorrectionLevel: businessSettings.errorCorrection
-          };
-          
-          const dataURL = await QRCode.toDataURL(item.url, qrOptions);
-          const filename = `${item.customFilename || item.name?.replace(/[^a-zA-Z0-9]/g, '_') || `qr_${i + 1}`}.${format}`;
-          
-          newResults.push({
-            ...item,
-            success: true,
-            dataURL,
-            filename
-          });
-          
-          successCount++;
-          
-          // Count categories
-          const category = item.category || 'Uncategorized';
-          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
-        }
-      } catch (error) {
+  // Basic checks
+  if (dataToProcess.length === 0) {
+    toast({
+      title: "Error",
+      description: "Please enter at least one URL or upload a CSV file",
+      variant: "destructive"
+    });
+    return;
+  }
+
+  if (dataToProcess.length > 1000) {
+    toast({
+      title: "Error",
+      description: "Maximum 1000 URLs allowed for bulk generation",
+      variant: "destructive"
+    });
+    return;
+  }
+
+  setIsGenerating(true);
+  setProgress(0);
+  setActiveTab("progress");
+
+  const newResults: BulkQRResult[] = [];
+  const startTime = Date.now();
+  let successCount = 0;
+  const categoryCounts: Record<string, number> = {};
+
+  for (let i = 0; i < dataToProcess.length; i++) {
+    const item = dataToProcess[i];
+
+    try {
+      if (!isValidURL(item.url)) {
         newResults.push({
           ...item,
           success: false,
-          error: "Generation failed",
+          error: "Invalid URL format",
           filename: `${item.customFilename || item.name || `qr_${i + 1}`}_error.txt`
         });
-      }
+      } else {
+        const qrOptions = {
+          width: parseInt(size),
+          margin: businessSettings.margin,
+          color: {
+            dark: businessSettings.foregroundColor,
+            light: businessSettings.backgroundColor
+          },
+          errorCorrectionLevel: businessSettings.errorCorrection
+        };
 
-      setProgress(((i + 1) / dataToProcess.length) * 100);
-      setResults([...newResults]);
+        const dataURL = await QRCode.toDataURL(item.url, qrOptions);
+        const filename = `${item.customFilename || item.name?.replace(/[^a-zA-Z0-9]/g, '_') || `qr_${i + 1}`}.${format}`;
+
+        newResults.push({
+          ...item,
+          success: true,
+          dataURL,
+          filename
+        });
+
+        successCount++;
+
+        const category = item.category || "Uncategorized";
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+      }
+    } catch (error) {
+      newResults.push({
+        ...item,
+        success: false,
+        error: "Generation failed",
+        filename: `${item.customFilename || item.name || `qr_${i + 1}`}_error.txt`
+      });
     }
 
-    const endTime = Date.now();
-    const avgProcessingTime = (endTime - startTime) / dataToProcess.length;
-    
-    // Update analytics
-    setAnalytics({
-      totalGenerated: dataToProcess.length,
-      successRate: (successCount / dataToProcess.length) * 100,
-      avgProcessingTime,
-      categoriesCount: categoryCounts
-    });
+    setProgress(((i + 1) / dataToProcess.length) * 100);
+    setResults(prev => [...prev, newResults[i]]); // Append incrementally
+  }
 
-    setIsGenerating(false);
-    setShowResults(true);
-    setActiveTab("results");
-    
-    toast({
-      title: "Bulk Generation Complete",
-      description: `Successfully generated ${successCount} out of ${dataToProcess.length} QR codes`,
-    });
-  };
+  const endTime = Date.now();
+  const avgProcessingTime = (endTime - startTime) / dataToProcess.length;
+
+  // Update analytics cumulatively
+  setAnalytics(prev => {
+    const previousTotal = prev?.totalGenerated || 0;
+    const previousSuccess = (prev?.successRate || 0) * previousTotal / 100;
+    const newTotal = previousTotal + dataToProcess.length;
+    const newSuccess = previousSuccess + successCount;
+
+    const updatedCategories = { ...(prev?.categoriesCount || {}) };
+    for (const [cat, count] of Object.entries(categoryCounts)) {
+      updatedCategories[cat] = (updatedCategories[cat] || 0) + count;
+    }
+
+    const newAvgTime = ((prev?.avgProcessingTime || 0) * previousTotal + avgProcessingTime * dataToProcess.length) / newTotal;
+
+    return {
+      totalGenerated: newTotal,
+      successRate: (newSuccess / newTotal) * 100,
+      avgProcessingTime: newAvgTime,
+      categoriesCount: updatedCategories
+    };
+  });
+
+  setIsGenerating(false);
+  setShowResults(true);
+  setActiveTab("results");
+
+  toast({
+    title: "Bulk Generation Complete",
+    description: `Successfully generated ${successCount} out of ${dataToProcess.length} QR codes`
+  });
+};
+
+
 
   const downloadAll = async () => {
     const successfulResults = results.filter(r => r.success && r.dataURL);
@@ -335,26 +357,53 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
   };
 
   return (
-    <div className="space-y-8">
+    <div className="w-full">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="input" className="flex items-center gap-2">
-            <Database className="w-4 h-4" />
-            Data Input
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="flex items-center gap-2">
-            <Settings className="w-4 h-4" />
-            Business Settings
-          </TabsTrigger>
-          <TabsTrigger value="progress" className="flex items-center gap-2">
-            <Crown className="w-4 h-4" />
-            Generation
-          </TabsTrigger>
-          <TabsTrigger value="results" className="flex items-center gap-2">
-            <BarChart3 className="w-4 h-4" />
-            Results & Analytics
-          </TabsTrigger>
-        </TabsList>
+ <div className="w-full overflow-x-auto">
+  <TabsList className="flex flex-nowrap sm:flex-wrap sm:justify-evenly gap-2 sm:gap-4 w-max sm:w-full min-w-full px-2 my-1">
+    <TabsTrigger
+      value="input"
+      className={`flex flex-1 items-center gap-2 justify-center px-3 py-2 rounded-md font-medium whitespace-nowrap ${
+        activeTab === "input" ? "bg-blue-500 text-white" : "bg-muted text-muted-foreground"
+      }`}
+    >
+      <Database className="w-4 h-4" />
+      Data Input
+    </TabsTrigger>
+
+    <TabsTrigger
+      value="settings"
+      className={`flex flex-1 items-center gap-2 justify-center px-3 py-2 rounded-md font-medium whitespace-nowrap ${
+        activeTab === "settings" ? "bg-blue-500 text-white" : "bg-muted text-muted-foreground"
+      }`}
+    >
+      <Settings className="w-4 h-4" />
+      Business Settings
+    </TabsTrigger>
+
+    <TabsTrigger
+      value="progress"
+      className={`flex flex-1 items-center gap-2 justify-center px-3 py-2 rounded-md font-medium whitespace-nowrap ${
+        activeTab === "progress" ? "bg-blue-500 text-white" : "bg-muted text-muted-foreground"
+      }`}
+    >
+      <Crown className="w-4 h-4" />
+      Generation
+    </TabsTrigger>
+
+    <TabsTrigger
+      value="results"
+      className={`flex flex-1 items-center gap-2 justify-center px-3 py-2 rounded-md font-medium whitespace-nowrap ${
+        activeTab === "results" ? "bg-blue-500 text-white" : "bg-muted text-muted-foreground"
+      }`}
+    >
+      <BarChart3 className="w-4 h-4" />
+      Results & Analytics
+    </TabsTrigger>
+  </TabsList>
+</div>
+
+
 
         <TabsContent value="input" className="space-y-6">
           <Card className="p-6">
@@ -460,6 +509,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
               </div>
             )}
           </Card>
+          
         </TabsContent>
 
         <TabsContent value="settings" className="space-y-6">
@@ -612,180 +662,289 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
           </Card>
         </TabsContent>
 
-        <TabsContent value="progress" className="space-y-6">
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              Generation Progress
-            </h3>
-            
-            {!isGenerating && results.length === 0 && (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Layers className="w-8 h-8 text-primary" />
-                </div>
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                  Ready to Generate
-                </h4>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-6">
-                  Configure your settings and click generate to start creating QR codes
+    <TabsContent value="progress" className="space-y-6">
+  <Card className="p-6">
+    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+      Generation Progress
+    </h3>
+
+    {/* Fallback: No input provided */}
+    {!isGenerating && results.length === 0 &&
+      ((inputMethod === "manual" && urls.trim().length === 0) ||
+        (inputMethod === "csv" && csvData.length === 0)) && (
+        <div className="text-center py-8">
+          <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle className="w-8 h-8 text-yellow-600" />
+          </div>
+          <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            No Data to Generate
+          </h4>
+          <p className="text-neutral-600 dark:text-neutral-300 mb-6">
+            Please provide URLs or upload a CSV file first, and customize your QR code settings.
+          </p>
+          <Button
+            variant="outline"
+            onClick={() => setActiveTab("input")}
+            className="hover:bg-gray-100 dark:hover:bg-neutral-800"
+          >
+            Go to Data Input
+          </Button>
+        </div>
+      )}
+
+    {/* Ready to Generate */}
+    {!isGenerating && results.length === 0 &&
+      ((inputMethod === "manual" && urls.trim().length > 0) ||
+        (inputMethod === "csv" && csvData.length > 0)) && (
+        <div className="text-center py-8">
+          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Layers className="w-8 h-8 text-primary" />
+          </div>
+          <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            Ready to Generate
+          </h4>
+          <p className="text-neutral-600 dark:text-neutral-300 mb-6">
+            Configure your settings and click generate to start creating QR codes
+          </p>
+          <Button
+            onClick={generateBulkQRCodes}
+            disabled={isGenerating}
+            className="bg-green-600 text-white hover:bg-blue-600"
+          >
+            Start Bulk Generation
+          </Button>
+        </div>
+      )}
+
+    {/* Generation in Progress */}
+    {isGenerating && (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">Processing QR codes...</span>
+          <span className="text-sm text-neutral-500">{Math.round(progress)}%</span>
+        </div>
+        <Progress value={progress} className="w-full" />
+        <p className="text-xs text-neutral-500 text-center">
+          This may take a few moments depending on the number of URLs
+        </p>
+      </div>
+    )}
+  </Card>
+
+  {/* Generation Complete */}
+  {!isGenerating && results.length > 0 && (
+    <Card className="p-6 text-center">
+      <div className="w-16 h-16 bg-green-100 dark:bg-green-900/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <CheckCircle className="w-8 h-8 text-green-600" />
+      </div>
+      <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+        Generation Complete
+      </h4>
+      <p className="text-neutral-600 dark:text-neutral-300 mb-6">
+        You can generate more QR codes with new URLs or upload a new CSV.
+      </p>
+      <Button
+        onClick={generateBulkQRCodes}
+        disabled={
+          isGenerating ||
+          (inputMethod === "manual" && urls.trim().length === 0) ||
+          (inputMethod === "csv" && csvData.length === 0)
+        }
+        className="bg-blue-600 text-white hover:bg-blue-400"
+      >
+        Generate More
+      </Button>
+    </Card>
+  )}
+</TabsContent>
+
+
+
+       <TabsContent value="results" className="space-y-6">
+  {results.length > 0 ? (
+    <>
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            Generation Results
+          </h3>
+          <div className="flex gap-2">
+            <Button onClick={downloadAll} className="flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              Download All ({results.filter(r => r.success).length})
+            </Button>
+            <Button variant="outline" onClick={resetGenerator}>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Start Over
+            </Button>
+          </div>
+        </div>
+
+        {/* Summary Cards */}
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-green-600 dark:text-green-300">Success Rate</p>
+                <p className="text-2xl font-bold text-green-800 dark:text-green-200">
+                  {analytics.successRate.toFixed(1)}%
                 </p>
-                <Button
-                  onClick={generateBulkQRCodes}
-                  disabled={isGenerating || (inputMethod === "manual" && urls.trim().length === 0) || (inputMethod === "csv" && csvData.length === 0)}
-                  className="bg-green-600 text-white hover:bg-blue-600"
-                >
-                  Start Bulk Generation
-                </Button>
               </div>
-            )}
-            
-            {isGenerating && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Processing QR codes...</span>
-                  <span className="text-sm text-neutral-500">{Math.round(progress)}%</span>
-                </div>
-                <Progress value={progress} className="w-full" />
-                <p className="text-xs text-neutral-500 text-center">
-                  This may take a few moments depending on the number of URLs
+              <CheckCircle className="w-8 h-8 text-green-500" />
+            </div>
+          </div>
+
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-blue-600 dark:text-blue-300">Total Generated</p>
+                <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                  {results.filter(r => r.success).length}
                 </p>
               </div>
-            )}
-          </Card>
-        </TabsContent>
+              <Layers className="w-8 h-8 text-blue-500" />
+            </div>
+          </div>
 
-        <TabsContent value="results" className="space-y-6">
-          {results.length > 0 && (
-            <>
-              <Card className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Generation Results
-                  </h3>
-                  <div className="flex gap-2">
-                    <Button onClick={downloadAll} className="flex items-center gap-2">
-                      <Download className="w-4 h-4" />
-                      Download All ({results.filter(r => r.success).length})
-                    </Button>
-                    <Button variant="outline" onClick={resetGenerator}>
-                      <RefreshCw className="w-4 h-4 mr-2" />
-                      Start Over
-                    </Button>
-                  </div>
-                </div>
+          <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-purple-600 dark:text-purple-300">Avg. Time</p>
+                <p className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                  {analytics.avgProcessingTime.toFixed(0)}ms
+                </p>
+              </div>
+              <Clock className="w-8 h-8 text-purple-500" />
+            </div>
+          </div>
+        </div>
 
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-green-600 dark:text-green-300">Success Rate</p>
-                        <p className="text-2xl font-bold text-green-800 dark:text-green-200">
-                          {analytics.successRate.toFixed(1)}%
-                        </p>
-                      </div>
-                      <CheckCircle className="w-8 h-8 text-green-500" />
-                    </div>
-                  </div>
-                  
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-blue-600 dark:text-blue-300">Total Generated</p>
-                        <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
-                          {results.filter(r => r.success).length}
-                        </p>
-                      </div>
-                      <Layers className="w-8 h-8 text-blue-500" />
-                    </div>
-                  </div>
-                  
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-purple-600 dark:text-purple-300">Avg. Time</p>
-                        <p className="text-2xl font-bold text-purple-800 dark:text-purple-200">
-                          {analytics.avgProcessingTime.toFixed(0)}ms
-                        </p>
-                      </div>
-                      <Clock className="w-8 h-8 text-purple-500" />
-                    </div>
-                  </div>
-                </div>
+        {/* Table of Results */}
+        <div className="max-h-96 overflow-y-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-neutral-50 dark:bg-neutral-800">
+              <tr>
+                <th className="text-left p-3">Status</th>
+                <th className="text-left p-3">Name</th>
+                <th className="text-left p-3">URL</th>
+                <th className="text-left p-3">Category</th>
+                <th className="text-left p-3">Filename</th>
+                <th className="text-left p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((result, index) => (
+                <tr key={index} className="border-t border-neutral-200 dark:border-neutral-700">
+                  <td className="p-3">
+                    {result.success ? (
+                      <CheckCircle className="w-5 h-5 text-green-500" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    )}
+                  </td>
+                  <td className="p-3">{result.name || `QR ${index + 1}`}</td>
+                  <td className="p-3 max-w-xs truncate" title={result.url}>
+                    {result.url}
+                  </td>
+                  <td className="p-3">
+                    <Badge variant="outline">{result.category || 'Uncategorized'}</Badge>
+                  </td>
+                  <td className="p-3 font-mono text-xs">{result.filename}</td>
+                  <td className="p-3">
+                    {result.success && result.dataURL ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          const link = document.createElement('a');
+                          link.download = result.filename;
+                          link.href = result.dataURL!;
+                          link.click();
+                        }}
+                      >
+                        <Download className="w-3 h-3" />
+                      </Button>
+                    ) : (
+                      <span className="text-red-500 text-xs">{result.error}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
 
-                <div className="max-h-96 overflow-y-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 dark:bg-neutral-800">
-                      <tr>
-                        <th className="text-left p-3">Status</th>
-                        <th className="text-left p-3">Name</th>
-                        <th className="text-left p-3">URL</th>
-                        <th className="text-left p-3">Category</th>
-                        <th className="text-left p-3">Filename</th>
-                        <th className="text-left p-3">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {results.map((result, index) => (
-                        <tr key={index} className="border-t border-neutral-200 dark:border-neutral-700">
-                          <td className="p-3">
-                            {result.success ? (
-                              <CheckCircle className="w-5 h-5 text-green-500" />
-                            ) : (
-                              <XCircle className="w-5 h-5 text-red-500" />
-                            )}
-                          </td>
-                          <td className="p-3">{result.name || `QR ${index + 1}`}</td>
-                          <td className="p-3 max-w-xs truncate" title={result.url}>
-                            {result.url}
-                          </td>
-                          <td className="p-3">
-                            <Badge variant="outline">{result.category || 'Uncategorized'}</Badge>
-                          </td>
-                          <td className="p-3 font-mono text-xs">{result.filename}</td>
-                          <td className="p-3">
-                            {result.success && result.dataURL ? (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => {
-                                  const link = document.createElement('a');
-                                  link.download = result.filename;
-                                  link.href = result.dataURL!;
-                                  link.click();
-                                }}
-                              >
-                                <Download className="w-3 h-3" />
-                              </Button>
-                            ) : (
-                              <span className="text-red-500 text-xs">{result.error}</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
+      {/* Category Breakdown */}
+      {Object.keys(analytics.categoriesCount).length > 0 && (
+        <Card className="p-6">
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Category Breakdown
+          </h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(analytics.categoriesCount).map(([category, count]) => (
+              <div
+                key={category}
+                className="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
+              >
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{category}</p>
+                <p className="text-2xl font-bold text-primary">{count}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+    </>
+  ) : (
+    <Card className="p-6 text-center">
+      <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+        <BarChart3 className="w-8 h-8 text-muted-foreground" />
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        No Results Yet
+      </h3>
+      <p className="text-sm text-neutral-500 mb-4">
+        Generate QR codes first to see the results and analytics here.
+      </p>
+      <Button
+        className="bg-black text-white hover:bg-gray-800"
+        onClick={() => setActiveTab("progress")}
+      >
+        Go to Generation
+      </Button>
+    </Card>
+  )}
+</TabsContent>
 
-              {Object.keys(analytics.categoriesCount).length > 0 && (
-                <Card className="p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Category Breakdown
-                  </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {Object.entries(analytics.categoriesCount).map(([category, count]) => (
-                      <div key={category} className="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{category}</p>
-                        <p className="text-2xl font-bold text-primary">{count}</p>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              )}
-            </>
-          )}
-        </TabsContent>
       </Tabs>
+      <div className="flex justify-between m-5">
+  <Button
+  variant="outline"
+  className="px-6 py-2 font-medium"
+  onClick={() => {
+    if (activeTab === "settings") setActiveTab("input");
+    else if (activeTab === "progress") setActiveTab("settings");
+    else if (activeTab === "results") setActiveTab("progress");
+  }}
+  disabled={activeTab === "input"}
+>
+  Previous
+</Button>
+
+<Button
+  className="bg-black text-white hover:bg-gray-800 px-6 py-2 font-medium"
+  onClick={() => {
+    if (activeTab === "input") setActiveTab("settings");
+    else if (activeTab === "settings") setActiveTab("progress");
+    else if (activeTab === "progress") setActiveTab("results");
+  }}
+  disabled={activeTab === "results"}
+>
+  Next
+</Button>
+
+</div>
+
     </div>
   );
 }

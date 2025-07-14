@@ -212,7 +212,7 @@ export default function QRGenerator() {
             
             {/* Ad space in QR generator - only show on larger screens */}
             <div className="hidden lg:flex lg:flex-col lg:items-center lg:justify-center">
-              <AdSpace size="square" label="Sponsored" className="w-64" />
+              {/* <AdSpace size="square" label="Sponsored" className="w-64" /> */}
             </div>
           </div>
         </Card>

@@ -1,4 +1,3 @@
-import { Twitter, Facebook } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -13,14 +12,6 @@ export default function Footer() {
               The simplest way to create high-quality QR codes for any purpose. 
               Privacy-focused, ad-safe, and completely free to use.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-neutral-600 hover:text-primary">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-neutral-600 hover:text-primary">
-                <Facebook className="w-5 h-5" />
-              </a>
-            </div>
           </div>
           
           <div>

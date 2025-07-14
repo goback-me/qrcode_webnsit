@@ -1,7 +1,7 @@
 
 import QRGenerator from "@/components/qr-generator";
 import FeaturesSection from "@/components/features-section";
-import PricingSection from "@/components/pricing-section";
+// import PricingSection from "@/components/pricing-section";
 import FAQSection from "@/components/faq-section";
 // import AdSpace from "@/components/ad-space";
 // import SEOHead, { generateWebApplicationStructuredData } from "@/components/seo-head";
@@ -30,7 +30,7 @@ export default function Home() {
           <AdSpace size="banner" label="Sponsored Content" />
         </div> */}
         
-        <PricingSection />
+        {/* <PricingSection /> */}
         
         {/* Ad before FAQ */}
         {/* <div className="flex justify-center my-16">
