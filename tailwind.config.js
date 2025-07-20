@@ -10,11 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // You can extend Tailwind's default theme here, e.g., custom colors, fonts, etc.
-      // For example, if you had custom colors in your old config:
-      // colors: {
-      //   'custom-blue': '#1a2b3c',
-      // },
+      fontFamily: {
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+      },
     },
   },
   plugins: [

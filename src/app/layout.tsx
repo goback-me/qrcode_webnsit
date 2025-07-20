@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import "./globals.css"; // Your main CSS file
-import Header from "@/components/header"; // Assuming you move header.tsx to src/components
-import Footer from "@/components/footer"; // Assuming you move footer.tsx to src/components
-import { Toaster } from "@/components/ui/toaster"; // If you're using a global toaster
+import { Poppins } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/header"; 
+import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster"; 
+
+// Configure Poppins font
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "QRGen - Free QR Code Generator", // From public/ai-content-schema.json
-  description: "A free, privacy-friendly QR code generator web application...", // From public/ai-content-schema.json
+  title: "QRGen - Free QR Code Generator", 
+  description: "A free, privacy-friendly QR code generator web application...",
 };
 
 export default function RootLayout({
@@ -16,9 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${poppins.variable} font-poppins`}>
         <Header />
-        <main>{children}</main> {/* This is where your page content will be rendered */}
+        <main>{children}</main>
         <Footer />
         <Toaster />
       </body>
