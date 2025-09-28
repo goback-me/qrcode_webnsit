@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Download, Upload, CheckCircle, AlertCircle, X, FileText, Database, Settings, BarChart3, Crown, Palette, Layers, RefreshCw, XCircle, Clock } from "lucide-react";
+import { Download, Upload, CheckCircle,FileText, Database, Settings, BarChart3, Crown, Palette, Layers, RefreshCw, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import QRCode from "qrcode";
 import JSZip from "jszip";

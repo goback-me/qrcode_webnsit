@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins , DM_Sans} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header"; 
 import Footer from "@/components/footer";
@@ -10,6 +10,13 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-dmSans",
   display: "swap",
 });
 
@@ -25,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} font-poppins`}>
+      <body className={`${poppins.variable}${dmSans.variable} font-dmSans`}>
         <Header />
         <main>{children}</main>
         <Footer />
