@@ -24,18 +24,18 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <a href="#generator" className="text-gray-900 dark:text-white hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+              <a href="/#generator" className="text-gray-900 dark:text-white hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Generator
               </a>
-              <a href="#features" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
-                Features
+              <a href="/products" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                Products
               </a>
-              <Link href="/bulk" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+              <Link href="/bulk-qr-generator" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Bulk Generator
               </Link>
-              <Link href="/blog" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+              {/* <Link href="/blog" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Blog
-              </Link>
+              </Link> */}
               <Link href="/help" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                 Help
               </Link>
@@ -86,13 +86,13 @@ export default function Header() {
               >
                 Pricing
               </a>
-              <Link 
+              {/* <Link 
                 href="/blog"
                 className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Blog
-              </Link>
+              </Link> */}
               <Link 
                 href="/help"
                 className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"

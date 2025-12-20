@@ -19,7 +19,7 @@ export default function QrSizeSelect({
         max={1000}
         value={value} 
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full rounded-xl border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500"
+        className="w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );

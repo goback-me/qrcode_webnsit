@@ -100,3 +100,48 @@
     @apply -translate-y-1 shadow-lg;
   }
 }
+
+
+@layer utilities {
+  /* 🟢 Responsive margin (vertical: top + bottom) */
+  .responsive-margin {
+    @apply m-5;
+  }
+  @media (min-width: 768px) {
+    .responsive-margin {
+      @apply mt-10 mb-10;
+    }
+  }
+  @media (min-width: 1024px) {
+    .responsive-margin {
+      @apply mt-20 mb-20;
+    }
+  }
+
+  /* 🟣 Responsive padding (vertical + horizontal) */
+  .responsive-padding {
+    @apply py-5 px-5;
+  }
+  @media (min-width: 768px) {
+    .responsive-padding {
+      @apply py-10 px-10;
+    }
+  }
+  @media (min-width: 1024px) {
+    .responsive-padding {
+      @apply py-20 px-20;
+    }
+  }
+}
+
+.css_grid_layout {
+  @apply mb-5 bg-gray-50
+}
+
+.css_grid_layout h3{
+  @apply font-semibold mb-2
+}
+
+.css_grid_layout p{
+  @apply font-normal
+}

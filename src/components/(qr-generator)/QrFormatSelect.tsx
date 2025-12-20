@@ -13,7 +13,7 @@ export default function QrFormatSelect({
   return (
     <div className="text-left space-y-2">
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="rounded-xl shadow-sm">
+        <SelectTrigger className="rounded-lg shadow-sm">
           <SelectValue placeholder="Select format" />
         </SelectTrigger>
         <SelectContent className="bg-white">

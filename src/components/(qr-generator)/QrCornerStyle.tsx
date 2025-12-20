@@ -13,7 +13,7 @@ export default function QrCornerStyle({
   return (
     <div className="text-left space-y-2 w-full">
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="rounded-xl shadow-sm">
+        <SelectTrigger className="rounded-lg shadow-sm">
           <SelectValue placeholder="Select style" />
         </SelectTrigger>
         <SelectContent className="bg-white">

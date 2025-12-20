@@ -1,0 +1,154 @@
+{
+  "heroSection": {
+    "title": "Create QR Codes Instantly – No Sign-Up Required",
+    "subheadline": "Generate high-quality QR codes for URLs, PDFs, WhatsApp, and more with our free, user-friendly tool.",
+    "ctas": [
+      "Generate QR Code Now",
+      "Create Your Free QR Code"
+    ]
+  },
+  "howItWorks": {
+    "heading": "How to Create a QR Code",
+    "steps": [
+      {
+        "title": "Enter Your Content",
+        "description": "Choose from a variety of options: URL, text, PDF, WhatsApp, business card, or more."
+      },
+      {
+        "title": "Customize Your QR Code",
+        "description": "Add logos, change colors, and adjust the design to match your brand."
+      },
+      {
+        "title": "Download and Share",
+        "description": "Get your QR code in PNG, SVG, or PDF format and start sharing it instantly."
+      }
+    ]
+  },
+  "featuresSection": {
+    "heading": "Powerful QR Code Features",
+    "features": [
+      {
+        "title": "Instant Generation",
+        "description": "Create QR codes instantly with just one click."
+      },
+      {
+        "title": "Custom Design",
+        "description": "Customize logos, colors, frames to match your brand."
+      },
+      {
+        "title": "Analytics",
+        "description": "Track scans and monitor performance with detailed analytics."
+      },
+      {
+        "title": "Multiple Formats",
+        "description": "Download in PNG, SVG, PDF, and other high-quality formats."
+      }
+    ]
+  },
+  "useCases": {
+    "heading": "QR Code Use Cases",
+    "items": [
+      {
+        "title": "Website Links",
+        "description": "Direct users to your homepage, product pages, or promotional offers with a simple scan."
+      },
+      {
+        "title": "Contact Information",
+        "description": "Share contact details instantly without manual typing or business cards."
+      },
+      {
+        "title": "Authentication and Security",
+        "description": "Secure access control and two-factor authentication for enhanced security."
+      }
+    ]
+  },
+  "whyChooseUs": {
+    "heading": "Why Choose Gen QR Generator",
+    "reasons": [
+      {
+        "title": "100 Percent Free",
+        "description": "Generate unlimited QR codes without any cost or registration required."
+      },
+      {
+        "title": "High Quality",
+        "description": "Vector-based QR codes that scale perfectly for print and digital use."
+      },
+      {
+        "title": "Privacy Focused",
+        "description": "Your data stays private. We do not store or track your QR code content."
+      },
+      {
+        "title": "Universal Compatibility",
+        "description": "Works with all QR code scanners and smartphone cameras."
+      },
+      {
+        "title": "Professional Results",
+        "description": "Create QR codes that look great and work flawlessly across all devices and platforms."
+      }
+    ]
+  },
+  "ctaSection": {
+    "heading": "Ready to Create Your QR Code",
+    "subheadline": "Start generating professional QR codes in seconds.",
+    "button": "Create QR Code Now"
+  },
+  "faqSection": {
+    "heading": "Frequently Asked Questions",
+    "faqs": [
+      {
+        "question": "What is a QR code generator free to use",
+        "answer": "Our free QR code generator no sign up allows you to create QR codes online instantly for URLs, PDFs, WhatsApp, and more."
+      },
+      {
+        "question": "Can I create a QR code with a logo",
+        "answer": "Yes. You can customize your QR code generator with logo to match your brand colors and design."
+      },
+      {
+        "question": "How do I generate a QR code for a PDF or text",
+        "answer": "Use our QR code generator for URL or text or QR code generator for PDF options to share your files quickly."
+      },
+      {
+        "question": "Can I use this QR code generator for apps or Android devices",
+        "answer": "Yes. It works for app barcode Android and other platforms."
+      },
+      {
+        "question": "How do I track QR code scans",
+        "answer": "Our analytics feature helps you monitor performance and scan activity for all your codes."
+      },
+      {
+        "question": "Can I print my QR codes on stickers or marketing materials",
+        "answer": "Yes. You can download and print your codes on sticker paper and other marketing materials."
+      },
+      {
+        "question": "Can I create funny or unique QR codes",
+        "answer": "Yes. You can create custom and fun QR codes with different designs."
+      }
+    ]
+  },
+  "footer": {
+    "quickLinks": [
+      {
+        "title": "Home",
+        "url": "/"
+      },
+      {
+        "title": "Generator",
+        "url": "/#generator"
+      },
+      {
+        "title": "Features",
+        "url": "/products"
+      },
+      {
+        "title": "Bulk Generator",
+        "url": "/bulk-qr-generator"
+      },
+      {
+        "title": "Help",
+        "url": "/help"
+      }
+    ],
+    "about": "Gen QR Generator is a free online QR code generator that allows users to create professional QR codes for websites, PDFs, WhatsApp, social media, and more.",
+    "contact": "For questions or support, email us at support@genqrgenerator.com"
+  }
+}

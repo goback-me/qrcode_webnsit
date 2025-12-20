@@ -172,32 +172,24 @@ export default function QrGenerator() {
   };
 
   return (
-    <section id="generator" className="text-center">
+    <section id="generator" className="text-center font-poppins">
       <Card className="p-8 bg-white shadow-lg border-0">
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8 items-start">
           {/* LEFT: inputs */}
           <div className="space-y-6">
             {/* Step 1: URL */}
+            <div className="flex items-center justify-start">
+              <Label htmlFor="url" className="text-lg font-medium text-left">
+                <span className="bg-black text-white px-2 rounded-md">1</span>{" "}
+                Enter Website URL
+              </Label>
+            </div>
             <QrUrlInput onChange={setUrl} />
 
             {/* Step 2: Logo */}
             <QrLogoUploader onUpload={setLogo} />
 
-            {/* Step 5: Generate Button */}
-            <button
-              onClick={generateQr}
-              disabled={!url.trim()}
-              className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium"
-            >
-              Generate QR Code
-            </button>
-          </div>
-
-          {/* RIGHT: preview + download */}
-          <div className="flex flex-col items-center top-20 md:sticky">
-            <QrPreview qrDataUrl={qrDataUrl} />
-
-            <div className="grid grid-cols-2 w-full justify-between gap-5 mb-5">
+                       <div className="grid grid-cols-2 w-full justify-between gap-5 mb-5">
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center mb-2">
                   <Label>Size</Label>
@@ -230,26 +222,41 @@ export default function QrGenerator() {
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-              <QrFormatSelect value={format} onChange={setFormat} />
+                <QrFormatSelect value={format} onChange={setFormat} />
               </div>
             </div>
             <div className="flex w-full gap-2 mb-5 flex-col">
-             <div className="flex gap-2 items-center mb-2">
-                  <Label>Image Corner</Label>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info size={15} />
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-white">
-                        <p>Select image style: circle or square.</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+              <div className="flex gap-2 items-center mb-2">
+                <Label>Image Corner</Label>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info size={15} />
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-white">
+                      <p>Select image style: circle or square.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
 
               <QrCornerStyle value={cornerStyle} onChange={setCornerStyle} />
             </div>
+
+            {/* Step 5: Generate Button */}
+            <button
+              onClick={generateQr}
+              disabled={!url.trim()}
+              className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium"
+            >
+              Generate QR Code
+            </button>
+          </div>
+
+          {/* RIGHT: preview + download */}
+          <div className="flex flex-col items-center top-20 md:sticky">
+            <QrPreview qrDataUrl={qrDataUrl} />
+
             <QrDownloadButton qrDataUrl={qrDataUrl} format={format} />
           </div>
         </div>

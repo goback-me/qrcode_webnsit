@@ -1,0 +1,288 @@
+{
+  "meta": {
+    "title": "QR Code Generator Help Center – FAQs & Guides | Gen QR Generator",
+    "description": "Need help with QR code generation? Explore FAQs, tutorials, and guides for dynamic, custom, and printable QR codes."
+  },
+  "hero": {
+    "title": "Gen QR Generator Help Center",
+    "description": "Welcome to the Gen QR Generator Help Center! Here you'll find answers to common questions and detailed guides for creating, customizing, and managing your QR codes. Whether you want to generate a dynamic QR code, print QR codes in bulk, or add a logo to your QR code, we've got you covered."
+  },
+  "popularTopics": {
+    "title": "Popular Topics",
+    "items": [
+      {
+        "id": "generate-online",
+        "title": "How to generate a QR code online",
+        "icon": "globe",
+        "link": "#generate-online"
+      },
+      {
+        "id": "add-logo",
+        "title": "Adding a logo in QR code",
+        "icon": "image",
+        "link": "#add-logo"
+      },
+      {
+        "id": "printing",
+        "title": "Printing QR codes for business cards and marketing materials",
+        "icon": "printer",
+        "link": "#printing"
+      },
+      {
+        "id": "dynamic-vs-static",
+        "title": "Dynamic QR codes vs static QR codes",
+        "icon": "refresh",
+        "link": "#dynamic-vs-static"
+      },
+      {
+        "id": "testing-scanning",
+        "title": "Testing and scanning QR codes on mobile apps",
+        "icon": "smartphone",
+        "link": "#testing-scanning"
+      }
+    ]
+  },
+  "helpSections": [
+    {
+      "id": "generate-online",
+      "title": "How to Generate a QR Code Online",
+      "icon": "globe",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Generating a QR code online with Gen QR Generator is quick and easy. Follow these simple steps:"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Navigate to the QR Generator page",
+            "Enter your website URL in the input field",
+            "Optionally upload a logo to customize your QR code",
+            "Select your preferred size, format (PNG, SVG, JPG), and corner style",
+            "Click 'Generate QR Code' button",
+            "Preview your QR code and download it in your chosen format"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "For best results, ensure your URL starts with https:// and test the QR code before printing or distribution."
+        }
+      ]
+    },
+    {
+      "id": "add-logo",
+      "title": "Adding a Logo in QR Code",
+      "icon": "image",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Adding your brand logo to a QR code makes it more recognizable and professional. Here's how:"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Prepare a square logo image (PNG with transparent background works best)",
+            "Keep your logo file size under 10MB",
+            "In Step 2 of the generator, click 'Choose File' or drag and drop your logo",
+            "Select your preferred corner style (circle or square) for the logo background",
+            "Generate the QR code to see your logo centered in the design"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "The logo will occupy about 15% of the QR code's center. This ensures the QR code remains scannable while displaying your brand."
+        }
+      ]
+    },
+    {
+      "id": "printing",
+      "title": "Printing QR Codes for Business Cards and Marketing Materials",
+      "icon": "printer",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "QR codes are perfect for business cards, flyers, posters, and stickers. Follow these guidelines for print-ready QR codes:"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Choose a larger size (at least 300x300 pixels) for print quality",
+            "Select SVG format for scalability without quality loss",
+            "Alternatively, use PNG format at 600+ pixels for high-resolution prints",
+            "Ensure high contrast between QR code and background",
+            "Test the QR code at the intended print size before mass production",
+            "Leave white space around the QR code (quiet zone) for better scanning"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "For business cards, a QR code size of 0.8 x 0.8 inches (2 x 2 cm) works well. For posters and larger materials, scale up proportionally."
+        }
+      ]
+    },
+    {
+      "id": "dynamic-vs-static",
+      "title": "Dynamic QR Codes vs Static QR Codes",
+      "icon": "refresh",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Understanding the difference between dynamic and static QR codes helps you choose the right option for your needs:"
+        },
+        {
+          "type": "comparison",
+          "items": [
+            {
+              "title": "Static QR Codes",
+              "features": [
+                "URL is permanently encoded in the QR code",
+                "Cannot be changed after generation",
+                "No tracking or analytics available",
+                "Perfect for permanent content (WiFi passwords, contact info)",
+                "Free and works forever",
+                "No expiration date"
+              ]
+            },
+            {
+              "title": "Dynamic QR Codes",
+              "features": [
+                "URL can be updated without changing the QR code image",
+                "Track scans, locations, and devices",
+                "Perfect for marketing campaigns",
+                "Redirect users to different content over time",
+                "Requires premium subscription",
+                "Analytics dashboard included"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "Use static QR codes for permanent information and dynamic QR codes for campaigns that need flexibility and tracking."
+        }
+      ]
+    },
+    {
+      "id": "testing-scanning",
+      "title": "Testing and Scanning QR Codes on Mobile Apps",
+      "icon": "smartphone",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Before distributing your QR codes, always test them to ensure they work correctly across different devices:"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "Use your smartphone's native camera app (iOS 11+ and Android 9+ support QR scanning)",
+            "Test with popular QR scanner apps like Google Lens or QR Code Reader",
+            "Check the QR code in different lighting conditions",
+            "Test at various distances (6 inches to 3 feet works best)",
+            "Verify the correct URL or content is displayed",
+            "Test on both iOS and Android devices if possible"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Common scanning issues and solutions:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "QR code too small: Increase the size to at least 2 x 2 cm for print",
+            "Poor contrast: Use black QR code on white background",
+            "Damaged or blurry: Regenerate in higher resolution",
+            "Logo too large: Ensure logo doesn't exceed 15-20% of QR code size",
+            "Incorrect URL: Double-check the URL before generating"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "Most modern smartphones automatically detect QR codes through the camera app. Simply open your camera and point it at the QR code."
+        }
+      ]
+    }
+  ],
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "Are the QR codes I generate free to use?",
+        "answer": "Yes! All QR codes generated with Gen QR Generator are completely free for personal and commercial use without any limitations or hidden fees."
+      },
+      {
+        "question": "What file formats are available for download?",
+        "answer": "You can download your QR codes in PNG, JPG, and SVG formats. SVG is recommended for printing as it's vector-based and scales without quality loss."
+      },
+      {
+        "question": "Can I edit my QR code after generating it?",
+        "answer": "Static QR codes cannot be edited once generated. If you need to change the destination URL, you'll need to create a new QR code. For editable QR codes, consider upgrading to our premium dynamic QR code feature."
+      },
+      {
+        "question": "How do I add a logo to my QR code?",
+        "answer": "Simply click on Step 2 in the generator and upload your logo image (PNG, JPG, or GIF up to 10MB). The logo will be automatically centered in your QR code with a white background for optimal scanning."
+      },
+      {
+        "question": "Do QR codes expire?",
+        "answer": "No, static QR codes generated with Gen QR Generator never expire. They will work indefinitely as long as the destination URL remains active."
+      },
+      {
+        "question": "What's the minimum size for a scannable QR code?",
+        "answer": "For print materials, the minimum recommended size is 2 x 2 cm (0.8 x 0.8 inches). For digital displays, 150 x 150 pixels works well. Larger is always better for easier scanning."
+      },
+      {
+        "question": "Can I track how many times my QR code is scanned?",
+        "answer": "Static QR codes don't include tracking. For analytics and scan tracking, you'll need to upgrade to our premium dynamic QR code feature which includes a full analytics dashboard."
+      },
+      {
+        "question": "Why isn't my QR code scanning?",
+        "answer": "Common issues include: QR code too small, poor image quality, insufficient contrast, damaged print, or incorrect URL format. Ensure your QR code is at least 2x2 cm and test it with multiple devices."
+      }
+    ]
+  },
+  "resources": {
+    "title": "Additional Resources",
+    "items": [
+      {
+        "title": "Video Tutorials",
+        "description": "Watch step-by-step video guides on creating and customizing QR codes",
+        "link": "/tutorials",
+        "icon": "play"
+      },
+      {
+        "title": "Blog & Tips",
+        "description": "Explore advanced tips, best practices, and creative uses for QR codes",
+        "link": "/blog",
+        "icon": "book"
+      },
+      {
+        "title": "Contact Support",
+        "description": "Can't find an answer? Our support team is here to help",
+        "link": "/contact",
+        "icon": "mail"
+      },
+      {
+        "title": "API Documentation",
+        "description": "Integrate QR code generation into your own applications",
+        "link": "/api-docs",
+        "icon": "code"
+      }
+    ]
+  },
+  "supportCta": {
+    "title": "Still Need Help?",
+    "description": "Can't find an answer? Contact our support team or explore our blog for advanced tips on QR code generation.",
+    "buttons": [
+      {
+        "text": "Contact Support",
+        "link": "/contact",
+        "primary": true
+      },
+      {
+        "text": "View Blog",
+        "link": "/blog",
+        "primary": false
+      }
+    ]
+  }
+}

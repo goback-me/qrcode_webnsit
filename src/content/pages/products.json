@@ -1,0 +1,122 @@
+{
+  "hero": {
+    "title": "Dynamic & Custom QR Code Generator – Features for Every Use Case",
+    "subtitle": "Create QR codes with logos, colors, and unique designs including circular, 3D, animated, and visible QR codes for websites, apps, and print.",
+    "ctaText": "Explore QR Code Features Now",
+    "ctaLink": "#features"
+  },
+  "features": {
+    "sectionTitle": "Key Features of Our QR Code Generator",
+    "items": [
+      {
+        "id": "custom-branded",
+        "icon": "palette",
+        "title": "Custom & Branded QR Codes",
+        "description": "Design QR codes with logos, colors, or special shapes using QR Code Generator Canva, Adobe Express QR Code Generator, or Adobe QR Code. Customize your QR code with logo in middle to match your brand identity and learn how to create a qr code in canva or how to make a qr code for a website with our intuitive tools."
+      },
+      {
+        "id": "dynamic-interactive",
+        "icon": "refresh",
+        "title": "Dynamic & Interactive Codes",
+        "description": "Generate dynamic QR codes that you can update anytime without changing the QR code image itself. Ideal for business use and tracking campaigns with our qr code generator for business and dbl qr codes functionality."
+      },
+      {
+        "id": "3d-animated",
+        "icon": "sparkles",
+        "title": "3D, Animated & Colorful Designs",
+        "description": "Make your QR codes stand out with 3D QR codes, animated QR codes, colorful QR codes, or even fun designs like QR code with dinosaur. Use our animated qr code generator and colorful qr code generator to create eye-catching codes, perfect for 3d print qr code projects."
+      },
+      {
+        "id": "print-ready",
+        "icon": "printer",
+        "title": "Print-Ready Codes",
+        "description": "Export codes for business cards, stickers, marketing materials, or printing in bulk. Perfect for printen qr code, qr codes in print, business cards with qr code, and using our tool to print qr codes on sticker paper for professional marketing materials."
+      },
+      {
+        "id": "specialized",
+        "icon": "wifi",
+        "title": "Specialized QR Codes",
+        "description": "Create QR codes for WiFi, social media like Facebook or Instagram, vCards, or even barcodes for inventory. Generate wifi qr code generator, create wifi qr code, facebook qr code, instagram account qr code, vcard qr code, and barcode image for various business needs."
+      },
+      {
+        "id": "testing-scanning",
+        "icon": "scan",
+        "title": "Testing & Scanning Tools",
+        "description": "Check your QR codes with QR code test, read QR code from image, or mobile apps like QR code scanner app Android. Ensure your codes work perfectly before distribution with our comprehensive testing suite."
+      },
+      {
+        "id": "advanced",
+        "icon": "settings",
+        "title": "Advanced & Miscellaneous Features",
+        "description": "Generate random QR codes, QR code sign, or use tools like QR Chimp, QR code Chimp, qr.io, and q code for specialized applications. Access advanced features including random qr code generation and integration with popular platforms."
+      },
+      {
+        "id": "utilities",
+        "icon": "tool",
+        "title": "Additional Utilities",
+        "description": "Create QR codes for address generator, card number generator, or qr kód WiFi for international users. Learn about QR code longevity with our guide on do qr codes expire and access utility features for various needs."
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "How You Can Use These QR Code Features",
+    "items": [
+      {
+        "title": "Marketing & Branding",
+        "description": "Print QR codes on business cards, brochures, and stickers using our qr code generator for business. Perfect for business cards with qr code and qr codes in print marketing campaigns.",
+        "icon": "megaphone"
+      },
+      {
+        "title": "Social Media & Apps",
+        "description": "Use QR codes for Instagram, Facebook, or QR Code Call links. Create instagram account qr code and facebook qr code to connect with your audience instantly.",
+        "icon": "share2"
+      },
+      {
+        "title": "Tracking & Analytics",
+        "description": "Monitor dynamic QR codes and bulk campaigns with our dynamic qr code generator. Track performance and optimize your marketing strategies.",
+        "icon": "barChart"
+      },
+      {
+        "title": "Fun & Creative Designs",
+        "description": "Generate random QR codes, animated codes, or 3D codes for interactive campaigns. Use our animated qr code generator and 3d qr code features for creative projects.",
+        "icon": "palette"
+      },
+      {
+        "title": "Technology & Utility",
+        "description": "Use WiFi QR codes with create wifi qr code, location scanners, and barcode image generation for businesses and technical applications.",
+        "icon": "cpu"
+      }
+    ]
+  },
+  "faq": {
+    "sectionTitle": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What is a dynamic QR code?",
+        "answer": "A dynamic QR code allows you to update the destination anytime without changing the QR image itself, perfect for businesses and marketing campaigns. Our dynamic qr code generator provides flexibility and tracking capabilities."
+      },
+      {
+        "question": "Can I customize the QR code design?",
+        "answer": "Yes! Use Adobe Express QR Code Generator, QR Code Generator Canva, or QR Chimp to create logos, colors, circular or 3D QR codes. You can learn how to create a qr code in canva and add a qr code with logo in middle for branded designs."
+      },
+      {
+        "question": "Can I print my QR codes for marketing or business cards?",
+        "answer": "Absolutely! All QR codes are print-ready and compatible with stickers, flyers, business cards with qr code, and other marketing materials. Use our tool to print qr codes on sticker paper and for printen qr code in various formats."
+      },
+      {
+        "question": "Are these QR codes compatible with apps?",
+        "answer": "Yes! QR codes work with Instagram, Facebook, WiFi access, and even qr code scanner app android. Create instagram account qr code, facebook qr code, and wifi qr code generator compatible codes for seamless integration."
+      },
+      {
+        "question": "Do QR codes expire?",
+        "answer": "You can generate static or dynamic QR codes. Static QR codes never expire and work indefinitely. Dynamic QR codes from our dynamic qr code generator can be updated anytime without expiring, giving you complete control."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Start Creating Your Custom QR Codes Today",
+    "subtitle": "Use our custom, dynamic, 3D, and colorful QR code generator to design codes for business, marketing, or fun projects. Create animated qr code generator designs and colorful qr code generator outputs that stand out.",
+    "buttonText": "Generate QR Codes Now",
+    "buttonLink": "/"
+  }
+}

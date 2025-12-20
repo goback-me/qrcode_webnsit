@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable}${dmSans.variable} font-dmSans`}>
+      <body className={`${poppins.variable} ${dmSans.variable} font-dmSans`}>
         <Header />
         <main>{children}</main>
         <Footer />

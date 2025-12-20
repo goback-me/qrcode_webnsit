@@ -18,7 +18,7 @@ export default function QrDownloadButton({ qrDataUrl, format }: QrDownloadButton
   return (
     <button
       onClick={handleDownload}
-      className="px-4 py-2 bg-green-600 text-white rounded w-full"
+      className="px-4 py-2 bg-green-600 text-white rounded-lg w-full"
     >
       Download QR
     </button>
