@@ -10,19 +10,19 @@ import {
   Mail,
   Code,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  LucideIcon
 } from "lucide-react";
 import helpData from "@/content/pages/help.json";
 import { Metadata } from "next";
 
-
 export const metadata: Metadata = {
-  title: "Contact Gen QR Generator – Support & Inquiries",
-  description:
-    "Reach out to Gen QR Generator for support, inquiries, or partnership opportunities. Our team is here to assist you with all your QR code needs.",
+  title: helpData.meta.title,
+  description: helpData.meta.description
 };
 
-const iconMap = {
+// Type-safe icon mapping
+const iconMap: Record<string, LucideIcon> = {
   globe: Globe,
   image: Image,
   printer: Printer,
@@ -32,6 +32,11 @@ const iconMap = {
   book: Book,
   mail: Mail,
   code: Code
+};
+
+// Helper function to get icon safely
+const getIcon = (iconName: string): LucideIcon => {
+  return iconMap[iconName] || Globe;
 };
 
 export default function HelpPage() {
@@ -56,7 +61,7 @@ export default function HelpPage() {
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {helpData.popularTopics.items.map((topic) => {
-            const Icon = iconMap[topic.icon] || Globe;
+            const Icon = getIcon(topic.icon);
             return (
               <a
                 key={topic.id}
@@ -84,7 +89,7 @@ export default function HelpPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-12">
             {helpData.helpSections.map((section) => {
-              const Icon = iconMap[section.icon] || Globe;
+              const Icon = getIcon(section.icon);
               return (
                 <div key={section.id} id={section.id} className="scroll-mt-20">
                   <Card className="p-8 border-0 bg-white shadow-lg">
@@ -98,7 +103,7 @@ export default function HelpPage() {
                     </div>
 
                     <div className="space-y-6">
-                      {section.content.map((block, idx) => {
+                      {section.content.map((block: any, idx: number) => {
                         if (block.type === "paragraph") {
                           return (
                             <p key={idx} className="text-gray-700 leading-relaxed text-lg">
@@ -110,7 +115,7 @@ export default function HelpPage() {
                         if (block.type === "steps") {
                           return (
                             <ol key={idx} className="space-y-3 ml-4">
-                              {block.items.map((step, stepIdx) => (
+                              {block.items.map((step: string, stepIdx: number) => (
                                 <li key={stepIdx} className="flex items-start gap-3">
                                   <span className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mt-0.5">
                                     {stepIdx + 1}
@@ -127,7 +132,7 @@ export default function HelpPage() {
                         if (block.type === "list") {
                           return (
                             <ul key={idx} className="space-y-2 ml-4">
-                              {block.items.map((item, itemIdx) => (
+                              {block.items.map((item: string, itemIdx: number) => (
                                 <li key={itemIdx} className="flex items-start gap-3">
                                   <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                                   <span className="text-gray-700 leading-relaxed">
@@ -142,7 +147,7 @@ export default function HelpPage() {
                         if (block.type === "comparison") {
                           return (
                             <div key={idx} className="grid md:grid-cols-2 gap-6">
-                              {block.items.map((item, itemIdx) => (
+                              {block.items.map((item: any, itemIdx: number) => (
                                 <div
                                   key={itemIdx}
                                   className="bg-gray-50 p-6 rounded-lg border-2 border-gray-200"
@@ -151,7 +156,7 @@ export default function HelpPage() {
                                     {item.title}
                                   </h4>
                                   <ul className="space-y-2">
-                                    {item.features.map((feature, featureIdx) => (
+                                    {item.features.map((feature: string, featureIdx: number) => (
                                       <li key={featureIdx} className="flex items-start gap-2">
                                         <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                                         <span className="text-gray-700 text-sm leading-relaxed">
@@ -223,7 +228,7 @@ export default function HelpPage() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {helpData.resources.items.map((resource, index) => {
-              const Icon = iconMap[resource.icon] || Book;
+              const Icon = getIcon(resource.icon);
               return (
                 <a
                   key={index}
@@ -259,7 +264,7 @@ export default function HelpPage() {
           <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
             {helpData.supportCta.description}
           </p>
-          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {helpData.supportCta.buttons.map((button, index) => (
               <a
                 key={index}
@@ -273,7 +278,7 @@ export default function HelpPage() {
                 {button.text}
               </a>
             ))}
-          </div> */}
+          </div>
         </div>
       </section>
     </div>

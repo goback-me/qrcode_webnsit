@@ -14,9 +14,7 @@ import {
   Cpu
 } from "lucide-react";
 import featuresData from "@/content/pages/products.json";
-
 import { Metadata } from "next";
-
 
 export const metadata: Metadata = {
   title: "Dynamic & Custom QR Code Generator Features – Free Online Tool | Gen QR Generator",
@@ -24,7 +22,8 @@ export const metadata: Metadata = {
     "Explore powerful QR code generator features: dynamic QR codes, custom designs with logos, 3D & animated codes, bulk generation, WiFi QR codes, and more. Perfect for business, marketing, and personal use.",
 };
 
-const iconMap = {
+// Type-safe icon mapping - this is the key fix
+const iconMap: { [key: string]: any } = {
   palette: Palette,
   refresh: RefreshCw,
   sparkles: Sparkles,
@@ -66,8 +65,8 @@ export default function FeaturesPage() {
           {featuresData.features.sectionTitle}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {featuresData.features.items.map((feature) => {
-            const Icon = iconMap[feature.icon] || Settings;
+          {featuresData.features.items.map((feature: any) => {
+            const Icon = iconMap[feature.icon as string] || Settings;
             return (
               <Card
                 key={feature.id}
@@ -99,8 +98,8 @@ export default function FeaturesPage() {
             {featuresData.useCases.sectionTitle}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {featuresData.useCases.items.map((useCase, index) => {
-              const Icon = iconMap[useCase.icon] || Megaphone;
+            {featuresData.useCases.items.map((useCase: any, index: number) => {
+              const Icon = iconMap[useCase.icon as string] || Megaphone;
               return (
                 <Card
                   key={index}
@@ -130,7 +129,7 @@ export default function FeaturesPage() {
           {featuresData.faq.sectionTitle}
         </h2>
         <div className="max-w-3xl mx-auto space-y-6">
-          {featuresData.faq.items.map((faq, index) => (
+          {featuresData.faq.items.map((faq: any, index: number) => (
             <Card key={index} className="p-6 border-0 bg-white shadow-md">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                 {faq.question}
@@ -150,12 +149,6 @@ export default function FeaturesPage() {
           <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
             {featuresData.cta.subtitle}
           </p>
-          <a
-            href={featuresData.cta.buttonLink}
-            className="inline-block px-8 py-4 bg-white text-blue-600 rounded-xl shadow-lg hover:bg-gray-100 transition-all duration-200 font-semibold text-lg"
-          >
-            {featuresData.cta.buttonText}
-          </a>
         </div>
       </section>
     </div>
