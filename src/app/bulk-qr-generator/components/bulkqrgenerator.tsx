@@ -58,10 +58,10 @@ export default function BulkGenerator() {
   };
 
   return (
-    <div className="w-full my-10 px-5">
+    <div className="w-full my-6 md:my-10 px-4 sm:px-5">
       {/* Input and Customization Section */}
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-7xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-7xl w-full">
           {/* Component 1: QR Input */}
           <QRInput
             inputMethod={inputMethod}

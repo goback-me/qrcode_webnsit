@@ -174,7 +174,7 @@ export default function QrGenerator() {
   return (
     <section id="generator" className="text-center font-poppins">
       <div className="input-card ">
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 md:gap-8 items-start">
           {/* LEFT: inputs */}
           <div className="space-y-6">
             {/* Step 1: URL */}
@@ -189,7 +189,7 @@ export default function QrGenerator() {
             {/* Step 2: Logo */}
             <QrLogoUploader onUpload={setLogo} />
 
-                       <div className="grid grid-cols-2 w-full justify-between gap-5 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 w-full justify-between gap-3 md:gap-5 mb-5">
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center mb-2">
                   <Label>Size</Label>
@@ -247,14 +247,14 @@ export default function QrGenerator() {
             <button
               onClick={generateQr}
               disabled={!url.trim()}
-              className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium"
+              className="w-full lg:w-auto px-4 md:px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium text-sm md:text-base"
             >
               Generate QR Code
             </button>
           </div>
 
           {/* RIGHT: preview + download */}
-          <div className="flex flex-col items-center top-20 md:sticky">
+          <div className="flex flex-col items-center lg:sticky lg:top-20">
             <QrPreview qrDataUrl={qrDataUrl} />
 
             <QrDownloadButton qrDataUrl={qrDataUrl} format={format} />
