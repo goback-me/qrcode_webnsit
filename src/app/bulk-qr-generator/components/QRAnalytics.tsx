@@ -42,6 +42,35 @@ export default function QRAnalytics({
   const successfulResults = results.filter((r) => r.success).reverse();
   const failedResults = results.filter((r) => !r.success).reverse();
 
+  const downloadSingle = (result: BulkQRResult) => {
+    if (!result.dataURL) {
+      toast({
+        title: "Error",
+        description: "QR code data not available",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const a = document.createElement("a");
+      a.href = result.dataURL;
+      a.download = result.filename;
+      a.click();
+
+      toast({
+        title: "Success",
+        description: `Downloaded ${result.filename}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to download file",
+        variant: "destructive",
+      });
+    }
+  };
+
   const downloadAll = async () => {
     if (successfulResults.length === 0) {
       toast({
@@ -218,18 +247,76 @@ ${
                       {result.name || `QR ${index + 1}`}
                     </td>
                     <td
-                      className="p-3 max-w-xs truncate text-neutral-600"
+                      className="p-3 max-w-xs truncate text-neutral-600 text-xs"
                       title={result.url}
                     >
                       {result.url}
                     </td>
                     <td className="p-3">
-                      <Badge variant="outline" className="bg-red-50">
+                      <Badge variant="outline" className="text-xs">
                         {result.category || "Uncategorized"}
                       </Badge>
                     </td>
                     <td className="p-3">
-                      <span className="text-red-600 text-xs font-medium">
+                      <span className="text-gray-700 font-mono text-xs">
+                        {result.filename}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => downloadSingle(result)}
+                        className="flex items-center gap-1"
+                      >
+                        <Download className="w-3 h-3" />
+                        Download
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+
+      {/* Failed QR Codes */}
+      {failedResults.length > 0 && (
+        <Card className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <XCircle className="w-5 h-5 text-red-500" />
+            <h3 className="text-lg font-semibold text-gray-900">
+              Failed QR Codes ({failedResults.length})
+            </h3>
+          </div>
+
+          <div className="max-h-96 overflow-y-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-red-50 sticky top-0">
+                <tr>
+                  <th className="text-left p-3">Name</th>
+                  <th className="text-left p-3">URL</th>
+                  <th className="text-left p-3">Error</th>
+                </tr>
+              </thead>
+              <tbody>
+                {failedResults.map((result, index) => (
+                  <tr
+                    key={index}
+                    className="border-t border-neutral-200 hover:bg-red-50/50"
+                  >
+                    <td className="p-3 font-medium">
+                      {result.name || `QR ${index + 1}`}
+                    </td>
+                    <td
+                      className="p-3 max-w-xs truncate text-neutral-600 text-xs"
+                      title={result.url}
+                    >
+                      {result.url}
+                    </td>
+                    <td className="p-3">
+                      <span className="text-red-600 text-xs font-medium bg-red-50 px-2 py-1 rounded">
                         {result.error}
                       </span>
                     </td>

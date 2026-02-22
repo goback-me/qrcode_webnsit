@@ -80,12 +80,27 @@ export default function QRInput({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Security validation: Check file type and size
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const ALLOWED_TYPES = ['text/csv', 'application/vnd.ms-excel'];
+    
     if (!file.name.endsWith(".csv")) {
       toast({
         title: "Error",
         description: "Please upload a CSV file",
         variant: "destructive",
       });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      toast({
+        title: "Error",
+        description: `File size must be less than 5MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+        variant: "destructive",
+      });
+      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
@@ -93,12 +108,22 @@ export default function QRInput({
     reader.onload = (e) => {
       try {
         const csvText = e.target?.result as string;
+        
+        // Security: Validate CSV content structure
+        if (!csvText.trim()) {
+          throw new Error('CSV file is empty');
+        }
+        
         const data = parseCSV(csvText);
+        if (data.length === 0) {
+          throw new Error('No valid data found in CSV file');
+        }
+        
         setCsvData(data);
         setInputMethod("csv");
         toast({
           title: "Success",
-          description: `Loaded ${data.length} URLs from CSV`,
+          description: `Loaded ${data.length} URLs from CSV file: ${file.name}`,
         });
       } catch (error) {
         toast({
@@ -107,8 +132,19 @@ export default function QRInput({
             error instanceof Error ? error.message : "Failed to parse CSV",
           variant: "destructive",
         });
+        if (fileInputRef.current) fileInputRef.current.value = '';
       }
     };
+    
+    reader.onerror = () => {
+      toast({
+        title: "Error",
+        description: "Failed to read the file. Please try again.",
+        variant: "destructive",
+      });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+    
     reader.readAsText(file);
   };
 
@@ -208,11 +244,23 @@ https://event.com/register,Event Registration,Event,event_qr`;
           </div>
 
           {csvData.length > 0 && (
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">
-                CSV Data Loaded Successfully
-              </h4>
-              <p className="text-sm text-green-600">
+            <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-medium text-green-800">
+                  CSV Data Loaded Successfully ✓
+                </h4>
+                <button
+                  onClick={() => {
+                    setCsvData([]);
+                    setInputMethod('manual');
+                    if (fileInputRef.current) fileInputRef.current.value = '';
+                  }}
+                  className="text-sm text-green-600 hover:text-red-600 font-medium"
+                >
+                  Clear
+                </button>
+              </div>
+              <p className="text-sm text-green-600 font-semibold mb-2">
                 {csvData.length} URLs loaded from CSV file
               </p>
               <div className="mt-2 max-h-32 overflow-y-auto">
