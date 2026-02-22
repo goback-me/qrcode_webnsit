@@ -252,13 +252,13 @@
       {
         "title": "Blog & Tips",
         "description": "Explore advanced tips, best practices, and creative uses for QR codes",
-        "link": "/blog",
+        "link": "/help",
         "icon": "book"
       },
       {
         "title": "Contact Support",
         "description": "Can't find an answer? Our support team is here to help",
-        "link": "/contact",
+        "link": "/help",
         "icon": "mail"
       },
       {
@@ -275,13 +275,8 @@
     "buttons": [
       {
         "text": "Contact Support",
-        "link": "/contact",
+        "link": "/help",
         "primary": true
-      },
-      {
-        "text": "View Blog",
-        "link": "/blog",
-        "primary": false
       }
     ]
   }

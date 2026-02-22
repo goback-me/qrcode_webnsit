@@ -173,7 +173,7 @@ export default function QrGenerator() {
 
   return (
     <section id="generator" className="text-center font-poppins">
-      <Card className="p-8 bg-white shadow-lg border-0">
+      <div className="input-card ">
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8 items-start">
           {/* LEFT: inputs */}
           <div className="space-y-6">
@@ -260,7 +260,7 @@ export default function QrGenerator() {
             <QrDownloadButton qrDataUrl={qrDataUrl} format={format} />
           </div>
         </div>
-      </Card>
+      </div>
     </section>
   );
 }

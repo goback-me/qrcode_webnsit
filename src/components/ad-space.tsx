@@ -15,12 +15,12 @@ export default function AdSpace({ size, className = "", label }: AdSpaceProps) {
   };
 
   return (
-    <Card className={`${sizeClasses[size]} ${className} bg-neutral-100 dark:bg-neutral-800 border-2 border-dashed border-neutral-300 dark:border-neutral-600 flex items-center justify-center`}>
-      <div className="text-center text-neutral-500 dark:text-neutral-400">
+    <Card className={`${sizeClasses[size]} ${className} bg-neutral-100 border-2 border-dashed border-neutral-300 flex items-center justify-center`}>
+      <div className="text-center text-neutral-500">
         <div className="text-sm font-medium mb-1">
           {label || "Advertisement Space"}
         </div>
-        <div className="text-xs text-neutral-400 dark:text-neutral-500">
+        <div className="text-xs text-neutral-400">
           Google Ads will appear here
         </div>
       </div>

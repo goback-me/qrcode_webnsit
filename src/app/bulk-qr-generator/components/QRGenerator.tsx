@@ -255,7 +255,7 @@ export default function QRGenerator({
         <div className="text-center py-8">
           <Button
             variant="outline"
-            className="hover:bg-gray-100 dark:hover:bg-neutral-800 w-full border-1 border-gray-700"
+            className="hover:bg-gray-100 w-full border-1 border-gray-700"
             disabled
           >
             Put URL For Input First

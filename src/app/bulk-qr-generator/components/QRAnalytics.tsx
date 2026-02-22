@@ -120,13 +120,13 @@ ${
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid md:grid-cols-3 gap-4">
-        <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+        <div className="bg-green-50 p-4 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-600 dark:text-green-300">
+              <p className="text-sm text-green-600">
                 Success Rate
               </p>
-              <p className="text-2xl font-bold text-green-800 dark:text-green-200">
+              <p className="text-2xl font-bold text-green-800">
                 {analytics.successRate.toFixed(1)}%
               </p>
             </div>
@@ -134,13 +134,13 @@ ${
           </div>
         </div>
 
-        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+        <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-600 dark:text-blue-300">
+              <p className="text-sm text-blue-600">
                 Total Generated
               </p>
-              <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+              <p className="text-2xl font-bold text-blue-800">
                 {successfulResults.length}
               </p>
             </div>
@@ -148,13 +148,13 @@ ${
           </div>
         </div>
 
-        <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+        <div className="bg-purple-50 p-4 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-600 dark:text-purple-300">
+              <p className="text-sm text-purple-600">
                 Avg. Time
               </p>
-              <p className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+              <p className="text-2xl font-bold text-purple-800">
                 {analytics.avgProcessingTime.toFixed(0)}ms
               </p>
             </div>
@@ -184,14 +184,14 @@ ${
         <Card className="p-6">
           <div className="flex items-center gap-2 mb-4">
             <CheckCircle className="w-5 h-5 text-green-500" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-gray-900">
               Successful QR Codes ({successfulResults.length})
             </h3>
           </div>
 
           <div className="max-h-96 overflow-y-auto">
             <table className="w-full text-sm">
-              <thead className="bg-green-50 dark:bg-green-900/20 sticky top-0">
+              <thead className="bg-green-50 sticky top-0">
                 <tr>
                   <th className="text-left p-3">Preview</th>
                   <th className="text-left p-3">Name</th>
@@ -205,100 +205,31 @@ ${
                 {successfulResults.map((result, index) => (
                   <tr
                     key={index}
-                    className="border-t border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                    className="border-t border-neutral-200 hover:bg-neutral-50"
                   >
                     <td className="p-3">
                       <img
                         src={result.dataURL}
                         alt={result.name || "QR Code"}
-                        className="w-12 h-12 object-contain border border-neutral-200 dark:border-neutral-700 rounded"
+                        className="w-12 h-12 object-contain border border-neutral-200 rounded"
                       />
                     </td>
                     <td className="p-3 font-medium">
                       {result.name || `QR ${index + 1}`}
                     </td>
                     <td
-                      className="p-3 max-w-xs truncate text-neutral-600 dark:text-neutral-400"
+                      className="p-3 max-w-xs truncate text-neutral-600"
                       title={result.url}
                     >
                       {result.url}
                     </td>
                     <td className="p-3">
-                      <Badge variant="outline" className="bg-green-50 dark:bg-green-900/20">
-                        {result.category || "Uncategorized"}
-                      </Badge>
-                    </td>
-                    <td className="p-3 font-mono text-xs text-neutral-600 dark:text-neutral-400">
-                      {result.filename}
-                    </td>
-                    <td className="p-3">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => {
-                          const link = document.createElement("a");
-                          link.download = result.filename;
-                          link.href = result.dataURL!;
-                          link.click();
-                        }}
-                      >
-                        <Download className="w-3 h-3" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
-      )}
-
-      {/* Failed QR Codes */}
-      {failedResults.length > 0 && (
-        <Card className="p-6 border-red-200 dark:border-red-900">
-          <div className="flex items-center gap-2 mb-4">
-            <AlertTriangle className="w-5 h-5 text-red-500" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Failed QR Codes ({failedResults.length})
-            </h3>
-          </div>
-
-          <div className="max-h-96 overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-red-50 dark:bg-red-900/20 sticky top-0">
-                <tr>
-                  <th className="text-left p-3">Status</th>
-                  <th className="text-left p-3">Name</th>
-                  <th className="text-left p-3">URL</th>
-                  <th className="text-left p-3">Category</th>
-                  <th className="text-left p-3">Error</th>
-                </tr>
-              </thead>
-              <tbody>
-                {failedResults.map((result, index) => (
-                  <tr
-                    key={index}
-                    className="border-t border-neutral-200 dark:border-neutral-700 hover:bg-red-50/50 dark:hover:bg-red-900/10"
-                  >
-                    <td className="p-3">
-                      <XCircle className="w-5 h-5 text-red-500" />
-                    </td>
-                    <td className="p-3 font-medium">
-                      {result.name || `QR ${index + 1}`}
-                    </td>
-                    <td
-                      className="p-3 max-w-xs truncate text-neutral-600 dark:text-neutral-400"
-                      title={result.url}
-                    >
-                      {result.url}
-                    </td>
-                    <td className="p-3">
-                      <Badge variant="outline" className="bg-red-50 dark:bg-red-900/20">
+                      <Badge variant="outline" className="bg-red-50">
                         {result.category || "Uncategorized"}
                       </Badge>
                     </td>
                     <td className="p-3">
-                      <span className="text-red-600 dark:text-red-400 text-xs font-medium">
+                      <span className="text-red-600 text-xs font-medium">
                         {result.error}
                       </span>
                     </td>
@@ -313,7 +244,7 @@ ${
       {/* Category Breakdown */}
       {Object.keys(analytics.categoriesCount).length > 0 && (
         <Card className="p-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <h4 className="text-lg font-semibold text-gray-900 mb-4">
             Category Breakdown
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -321,9 +252,9 @@ ${
               ([category, count]) => (
                 <div
                   key={category}
-                  className="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
+                  className="text-center p-3 bg-neutral-50 rounded-lg"
                 >
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  <p className="text-sm font-medium text-gray-900">
                     {category}
                   </p>
                   <p className="text-2xl font-bold text-primary">{count}</p>

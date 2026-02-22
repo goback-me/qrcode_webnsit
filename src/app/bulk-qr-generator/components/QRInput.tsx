@@ -129,7 +129,7 @@ https://event.com/register,Event Registration,Event,event_qr`;
 
   return (
     <Card className="p-6">
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">
         Data Input Methods
       </h3>
 
@@ -186,7 +186,7 @@ https://event.com/register,Event Registration,Event,event_qr`;
             </Button>
           </div>
 
-          <div className="border-2 border-dashed border-gray-300 dark:border-neutral-600 rounded-lg p-8 text-center">
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
             <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <input
               ref={fileInputRef}
@@ -208,24 +208,24 @@ https://event.com/register,Event Registration,Event,event_qr`;
           </div>
 
           {csvData.length > 0 && (
-            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-              <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h4 className="font-medium text-green-800 mb-2">
                 CSV Data Loaded Successfully
               </h4>
-              <p className="text-sm text-green-600 dark:text-green-300">
+              <p className="text-sm text-green-600">
                 {csvData.length} URLs loaded from CSV file
               </p>
               <div className="mt-2 max-h-32 overflow-y-auto">
                 {csvData.slice(0, 5).map((item, index) => (
                   <div
                     key={index}
-                    className="text-xs text-green-600 dark:text-green-300"
+                    className="text-xs text-green-600"
                   >
                     {item.name || `Item ${index + 1}`}: {item.url}
                   </div>
                 ))}
                 {csvData.length > 5 && (
-                  <div className="text-xs text-green-600 dark:text-green-300">
+                  <div className="text-xs text-green-600">
                     ... and {csvData.length - 5} more
                   </div>
                 )}

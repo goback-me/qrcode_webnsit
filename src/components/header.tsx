@@ -3,60 +3,46 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import AdSpace from "@/components/ad-space";
 import Link from "next/link";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white dark:bg-neutral-800 shadow-sm border-b border-gray-100 dark:border-neutral-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="bg-white shadow-sm border-b border-gray-100">
+      <div className="container flex items-center h-16">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link href="/">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white cursor-pointer">QRGen</h1>
+                <span className="text-2xl font-extrabold cursor-pointer">QRGen</span>
               </Link>
             </div>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              <a href="/#generator" className="text-gray-900 dark:text-white hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+            <div className="ml-6 flex items-center gap-4">
+              <Link href="/#generator" className="text-sm font-medium text-gray-900 hover:underline hover:text-primary transition-colors px-2 py-1">
                 Generator
-              </a>
-              <a href="/products" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
-                Products
-              </a>
-              <Link href="/bulk-qr-generator" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
-                Bulk Generator
               </Link>
-              {/* <Link href="/blog" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
-                Blog
-              </Link> */}
-              <Link href="/help" className="text-neutral-600 dark:text-neutral-300 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+              <Link href="/products" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
+                Products
+              </Link>
+              <Link href="/bulk-qr-generator" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
+                Bulk
+              </Link>
+              <Link href="/help" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
                 Help
               </Link>
-              <Button className="bg-primary text-white hover:bg-blue-600">
-                Go Premium
-              </Button>
+
             </div>
           </nav>
           
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+            <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>
@@ -64,54 +50,36 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-neutral-700">
-              <a 
-                href="#generator" 
-                className="block px-3 py-2 text-base font-medium text-gray-900 dark:text-white hover:text-primary transition-colors"
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+              <Link 
+                href="/#generator" 
+                className="block px-3 py-2 text-base font-medium text-gray-900 hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Generator
-              </a>
-              <a 
-                href="#features" 
-                className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
+              </Link>
+              <Link 
+                href="/products" 
+                className="block px-3 py-2 text-base font-medium text-neutral-600 hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Features
-              </a>
-              <a 
-                href="#pricing" 
-                className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
+                Products
+              </Link>
+              <Link 
+                href="/bulk-qr-generator" 
+                className="block px-3 py-2 text-base font-medium text-neutral-600 hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Pricing
-              </a>
-              {/* <Link 
-                href="/blog"
-                className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Blog
-              </Link> */}
+                Bulk Generator
+              </Link>
               <Link 
                 href="/help"
-                className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
+                className="block px-3 py-2 text-base font-medium text-neutral-600 hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Help Center
               </Link>
-              <Link 
-                href="/contact"
-                className="block px-3 py-2 text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
-              <div className="px-3 py-2">
-                <Button className="w-full bg-primary text-white hover:bg-blue-600">
-                  Go Premium
-                </Button>
-              </div>
+
             </div>
           </div>
         )}

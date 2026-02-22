@@ -219,68 +219,6 @@ export default function HelpPage() {
           ))}
         </div>
       </section>
-
-      {/* Resources Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
-            {helpData.resources.title}
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {helpData.resources.items.map((resource, index) => {
-              const Icon = getIcon(resource.icon);
-              return (
-                <a
-                  key={index}
-                  href={resource.link}
-                  className="block group"
-                >
-                  <Card className="p-6 h-full border-0 bg-white hover:shadow-xl hover:border-blue-500 hover:border-2 transition-all duration-300">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors">
-                        <Icon className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors" />
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                        {resource.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {resource.description}
-                      </p>
-                    </div>
-                  </Card>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Support CTA */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {helpData.supportCta.title}
-          </h2>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-            {helpData.supportCta.description}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {helpData.supportCta.buttons.map((button, index) => (
-              <a
-                key={index}
-                href={button.link}
-                className={`inline-block px-8 py-4 rounded-xl shadow-lg transition-all duration-200 font-semibold text-lg ${
-                  button.primary
-                    ? "bg-white text-blue-600 hover:bg-gray-100"
-                    : "bg-blue-500 text-white hover:bg-blue-400"
-                }`}
-              >
-                {button.text}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

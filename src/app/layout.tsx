@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/header"; 
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster"; 
-import Head from "next/head";
 
 // Configure Poppins font
 const poppins = Poppins({
@@ -35,11 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    
     <html lang="en">
-      <body className={`${poppins.variable} ${dmSans.variable} font-dmSans`}>
+      <body className={`${poppins.variable} ${dmSans.variable} site-bg`}>
         <Header />
-        <main>{children}</main>
+        <main className="relative z-10">
+          {children}
+        </main>
         <Footer />
         <Toaster />
       </body>

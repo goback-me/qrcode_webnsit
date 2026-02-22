@@ -42,7 +42,7 @@ export default function QRCustomization({
 }: QRCustomizationProps) {
   return (
     <Card className="p-6">
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Palette className="w-5 h-5" />
         Business Branding & Customization
       </h3>

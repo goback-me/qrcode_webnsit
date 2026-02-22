@@ -44,7 +44,7 @@ export default function FeaturesPage() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 md:py-24 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 text-gray-900">
             {featuresData.hero.title}
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">

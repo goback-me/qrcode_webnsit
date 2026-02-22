@@ -356,7 +356,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
 
         <TabsContent value="input" className="space-y-6">
           <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
               Data Input Methods
             </h3>
             
@@ -412,7 +412,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                   </Button>
                 </div>
                 
-                <div className="border-2 border-dashed border-gray-300 dark:border-neutral-600 rounded-lg p-8 text-center">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <input
                     ref={fileInputRef}
@@ -434,21 +434,21 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                 </div>
                 
                 {csvData.length > 0 && (
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                    <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h4 className="font-medium text-green-800 mb-2">
                       CSV Data Loaded Successfully
                     </h4>
-                    <p className="text-sm text-green-600 dark:text-green-300">
+                    <p className="text-sm text-green-600">
                       {csvData.length} URLs loaded from CSV file
                     </p>
                     <div className="mt-2 max-h-32 overflow-y-auto">
                       {csvData.slice(0, 5).map((item, index) => (
-                        <div key={index} className="text-xs text-green-600 dark:text-green-300">
+                        <div key={index} className="text-xs text-green-600">
                           {item.name || `Item ${index + 1}`}: {item.url}
                         </div>
                       ))}
                       {csvData.length > 5 && (
-                        <div className="text-xs text-green-600 dark:text-green-300">
+                        <div className="text-xs text-green-600">
                           ... and {csvData.length - 5} more
                         </div>
                       )}
@@ -462,7 +462,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
 
         <TabsContent value="settings" className="space-y-6">
           <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Palette className="w-5 h-5" />
               Business Branding & Customization
             </h3>
@@ -599,9 +599,9 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                   </Button>
                 </div>
                 
-                <div className="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+                <div className="p-4 bg-neutral-50 rounded-lg">
                   <h4 className="font-medium mb-2">QR Code Preview</h4>
-                  <div className="w-32 h-32 border-2 border-dashed border-gray-300 dark:border-neutral-600 rounded-lg flex items-center justify-center">
+                  <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
                     <span className="text-xs text-neutral-500">Preview</span>
                   </div>
                 </div>
@@ -612,7 +612,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
 
         <TabsContent value="progress" className="space-y-6">
           <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
               Generation Progress
             </h3>
             
@@ -621,10 +621,10 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Layers className="w-8 h-8 text-primary" />
                 </div>
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                <h4 className="text-lg font-medium text-gray-900 mb-2">
                   Ready to Generate
                 </h4>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-6">
+                <p className="text-neutral-600 mb-6">
                   Configure your settings and click generate to start creating QR codes
                 </p>
                 <Button
@@ -657,7 +657,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
             <>
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-xl font-semibold text-gray-900">
                     Generation Results
                   </h3>
                   <div className="flex gap-2">
@@ -673,11 +673,11 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                  <div className="bg-green-50 p-4 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-green-600 dark:text-green-300">Success Rate</p>
-                        <p className="text-2xl font-bold text-green-800 dark:text-green-200">
+                        <p className="text-sm text-green-600">Success Rate</p>
+                        <p className="text-2xl font-bold text-green-800">
                           {analytics.successRate.toFixed(1)}%
                         </p>
                       </div>
@@ -685,11 +685,11 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                     </div>
                   </div>
                   
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                  <div className="bg-blue-50 p-4 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-blue-600 dark:text-blue-300">Total Generated</p>
-                        <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+                        <p className="text-sm text-blue-600">Total Generated</p>
+                        <p className="text-2xl font-bold text-blue-800">
                           {results.filter(r => r.success).length}
                         </p>
                       </div>
@@ -697,11 +697,11 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                     </div>
                   </div>
                   
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                  <div className="bg-purple-50 p-4 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-purple-600 dark:text-purple-300">Avg. Time</p>
-                        <p className="text-2xl font-bold text-purple-800 dark:text-purple-200">
+                        <p className="text-sm text-purple-600">Avg. Time</p>
+                        <p className="text-2xl font-bold text-purple-800">
                           {analytics.avgProcessingTime.toFixed(0)}ms
                         </p>
                       </div>
@@ -712,7 +712,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
 
                 <div className="max-h-96 overflow-y-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 dark:bg-neutral-800">
+                    <thead className="bg-neutral-50">
                       <tr>
                         <th className="text-left p-3">Status</th>
                         <th className="text-left p-3">Name</th>
@@ -724,7 +724,7 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
                     </thead>
                     <tbody>
                       {results.map((result, index) => (
-                        <tr key={index} className="border-t border-neutral-200 dark:border-neutral-700">
+                        <tr key={index} className="border-t border-neutral-200">
                           <td className="p-3">
                             {result.success ? (
                               <CheckCircle className="w-5 h-5 text-green-500" />
@@ -767,13 +767,13 @@ ${successfulResults.map(r => `- ${r.filename} (${r.name || r.url})`).join('\n')}
 
               {Object.keys(analytics.categoriesCount).length > 0 && (
                 <Card className="p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">
                     Category Breakdown
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {Object.entries(analytics.categoriesCount).map(([category, count]) => (
-                      <div key={category} className="text-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{category}</p>
+                      <div key={category} className="text-center p-3 bg-neutral-50 rounded-lg">
+                        <p className="text-sm font-medium text-gray-900">{category}</p>
                         <p className="text-2xl font-bold text-primary">{count}</p>
                       </div>
                     ))}
