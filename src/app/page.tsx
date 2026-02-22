@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Gen QR Generator - Create QR Codes Instantly",
   description:
     "Generate high-quality QR codes for URLs, PDFs, WhatsApp, and more.",
+
+    alternates: {
+    canonical: "https://www.genqrgenerator.com/",
+  },
 };
 
 export default function Home() {

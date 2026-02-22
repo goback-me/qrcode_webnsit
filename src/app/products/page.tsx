@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "Dynamic & Custom QR Code Generator Features – Free Online Tool | Gen QR Generator",
   description:
     "Explore powerful QR code generator features: dynamic QR codes, custom designs with logos, 3D & animated codes, bulk generation, WiFi QR codes, and more. Perfect for business, marketing, and personal use.",
+        alternates: {
+    canonical: "https://www.genqrgenerator.com/products",
+  },
 };
 
 // Type-safe icon mapping - this is the key fix

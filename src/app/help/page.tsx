@@ -18,7 +18,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: helpData.meta.title,
-  description: helpData.meta.description
+  description: helpData.meta.description,
+  alternates: {
+    canonical: "https://www.genqrgenerator.com/help",
+  },
 };
 
 // Type-safe icon mapping
