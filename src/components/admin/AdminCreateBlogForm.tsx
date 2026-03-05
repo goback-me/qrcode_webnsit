@@ -1,0 +1,470 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createBrowserClientInstance } from '@/lib/supabase.client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card } from '@/components/ui/card';
+import { RichTextEditor } from './RichTextEditor';
+import { AlertCircle, Upload, Loader2, LogOut, Info } from 'lucide-react';
+import Image from 'next/image';
+
+export function AdminCreateBlogForm() {
+  const router = useRouter();
+  const supabase = createBrowserClientInstance();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [featuredImageUrl, setFeaturedImageUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+
+  const [formData, setFormData] = useState({
+    title: '',
+    excerpt: '',
+    content: '',
+    category: 'Technology',
+    tags: '',
+    featured_image: '',
+    meta_title: '',
+    meta_description: '',
+    draft: false,
+    is_indexed: true,
+  });
+
+  // Check authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        setLoading(true);
+        const {
+          data: { user },
+          error: authError,
+        } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+          router.push('/admin/blog/login');
+          return;
+        }
+
+        setUser(user);
+      } catch (err) {
+        console.error('Auth error:', err);
+        router.push('/admin/blog/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [supabase, router]);
+
+  const handleLogout = async () => {
+    try {
+      setAuthLoading(true);
+      await supabase.auth.signOut();
+      router.push('/admin/blog/login');
+    } catch (err) {
+      setError('Failed to logout');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setError(null);
+
+    try {
+      const formDataObj = new FormData();
+      formDataObj.append('file', file);
+
+      const response = await fetch('/api/blog/upload', {
+        method: 'POST',
+        body: formDataObj,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to upload image');
+      }
+
+      setFeaturedImageUrl(result.data.url);
+      setFormData(prev => ({ ...prev, featured_image: result.data.url }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSubmitting(true);
+    setError(null);
+
+    try {
+      if (!user) {
+        throw new Error('Not authenticated');
+      }
+
+      const response = await fetch('/api/blog/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: formData.title,
+          excerpt: formData.excerpt,
+          content: formData.content,
+          category: formData.category,
+          tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+          featured_image: formData.featured_image,
+          meta_title: formData.meta_title || formData.title,
+          meta_description: formData.meta_description || formData.excerpt,
+          draft: formData.draft,
+          is_indexed: formData.is_indexed,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to create blog post');
+      }
+
+      // Reset form
+      setFormData({
+        title: '',
+        excerpt: '',
+        content: '',
+        category: 'Technology',
+        tags: '',
+        featured_image: '',
+        meta_title: '',
+        meta_description: '',
+        draft: false,
+        is_indexed: true,
+      });
+      setFeaturedImageUrl(null);
+
+      // Show success and redirect
+      alert(`Blog post ${formData.draft ? 'saved as draft' : 'published'} successfully!`);
+      router.push('/blog');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <div className="min-h-screen bg-white pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Create Blog Post</h1>
+            <p className="text-gray-600">Admin Area</p>
+          </div>
+          <Button
+            onClick={handleLogout}
+            disabled={authLoading}
+            variant="outline"
+            className="border-gray-300"
+          >
+            {authLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Logging out...
+              </>
+            ) : (
+              <>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </>
+            )}
+          </Button>
+        </div>
+
+        {error && (
+          <Card className="mb-6 border-red-500 bg-red-50">
+            <div className="flex gap-3 p-4">
+              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <p className="text-red-800">{error}</p>
+            </div>
+          </Card>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Featured Image */}
+          <Card className="p-6 border-gray-200">
+            <Label className="text-gray-900 mb-4 block font-semibold">Featured Image</Label>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploadingImage}
+                  className="hidden"
+                  id="image-upload"
+                />
+                <label htmlFor="image-upload" className="cursor-pointer block">
+                  {uploadingImage ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+                      <p className="text-gray-600">Uploading...</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload className="h-8 w-8 text-gray-400" />
+                      <p className="text-gray-700 font-medium">Click to upload or drag image</p>
+                      <p className="text-gray-500 text-sm">PNG, JPG up to 5MB</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+              {featuredImageUrl && (
+                <div className="relative h-48 w-full rounded-lg overflow-hidden border border-gray-200">
+                  <Image
+                    src={featuredImageUrl}
+                    alt="Featured image"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+            </div>
+          </Card>
+
+          {/* Title */}
+          <Card className="p-6 border-gray-200">
+            <Label htmlFor="title" className="text-gray-900 font-semibold">
+              Post Title *
+            </Label>
+            <Input
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="Enter your blog post title"
+              required
+              className="mt-3 border-gray-300 text-gray-900"
+            />
+          </Card>
+
+          {/* Excerpt */}
+          <Card className="p-6 border-gray-200">
+            <Label htmlFor="excerpt" className="text-gray-900 font-semibold">
+              Excerpt (Summary) *
+            </Label>
+            <Textarea
+              id="excerpt"
+              name="excerpt"
+              value={formData.excerpt}
+              onChange={handleInputChange}
+              placeholder="Brief description of your post (shown in blog list)"
+              required
+              rows={3}
+              className="mt-3 border-gray-300 text-gray-900"
+            />
+          </Card>
+
+          {/* Content */}
+          <Card className="p-6 border-gray-200">
+            <RichTextEditor
+              label="Post Content *"
+              value={formData.content}
+              onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+              placeholder="Write your blog post content here... You can paste from Google Docs and formatting will be preserved!"
+            />
+          </Card>
+
+          {/* Category and Tags */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="p-6 border-gray-200">
+              <Label htmlFor="category" className="text-gray-900 font-semibold">
+                Category *
+              </Label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                className="mt-3 w-full px-4 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option>Technology</option>
+                <option>Tutorial</option>
+                <option>News</option>
+                <option>Guide</option>
+                <option>Other</option>
+              </select>
+            </Card>
+
+            <Card className="p-6 border-gray-200">
+              <Label htmlFor="tags" className="text-gray-900 font-semibold">
+                Tags (comma separated)
+              </Label>
+              <Input
+                id="tags"
+                name="tags"
+                value={formData.tags}
+                onChange={handleInputChange}
+                placeholder="e.g., next.js, react, web development"
+                className="mt-3 border-gray-300 text-gray-900"
+              />
+            </Card>
+          </div>
+
+          {/* SEO Fields */}
+          <div className="space-y-6">
+            <Card className="p-6 border-gray-200 bg-blue-50">
+              <div className="flex items-start gap-3 mb-4">
+                <Info className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div>
+                  <h3 className="font-semibold text-gray-900">SEO Settings</h3>
+                  <p className="text-sm text-gray-600">Optimize your post for search engines</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {/* Meta Title */}
+                <div>
+                  <Label htmlFor="meta_title" className="text-gray-900 font-semibold">
+                    Meta Title {formData.meta_title.length > 0 && `(${formData.meta_title.length})`}
+                  </Label>
+                  <Input
+                    id="meta_title"
+                    name="meta_title"
+                    value={formData.meta_title}
+                    onChange={handleInputChange}
+                    placeholder={formData.title || "Post title (used in search results)"}
+                    className="mt-3 border-gray-300 text-gray-900"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Appears in search results. Ideal length: 50-60 characters
+                  </p>
+                </div>
+
+                {/* Meta Description */}
+                <div>
+                  <Label htmlFor="meta_description" className="text-gray-900 font-semibold">
+                    Meta Description {formData.meta_description.length > 0 && `(${formData.meta_description.length})`}
+                  </Label>
+                  <Textarea
+                    id="meta_description"
+                    name="meta_description"
+                    value={formData.meta_description}
+                    onChange={handleInputChange}
+                    placeholder={formData.excerpt || "Brief description (shown in search results)"}
+                    rows={2}
+                    className="mt-3 border-gray-300 text-gray-900"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Appears under title in search results. Ideal length: 150-160 characters
+                  </p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Publishing Options */}
+            <Card className="p-6 border-gray-200">
+              <h3 className="font-semibold text-gray-900 mb-4">Publishing Options</h3>
+              
+              <div className="space-y-4">
+                {/* Draft Toggle */}
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.draft}
+                    onChange={(e) => setFormData(prev => ({ ...prev, draft: e.target.checked }))}
+                    className="w-5 h-5 border-gray-300 rounded text-blue-600"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">Save as Draft</p>
+                    <p className="text-sm text-gray-600">Draft posts are only visible to you</p>
+                  </div>
+                </label>
+
+                {/* Index Toggle */}
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_indexed}
+                    onChange={(e) => setFormData(prev => ({ ...prev, is_indexed: e.target.checked }))}
+                    className="w-5 h-5 border-gray-300 rounded text-blue-600"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">Allow Search Engine Indexing</p>
+                    <p className="text-sm text-gray-600">
+                      {formData.is_indexed 
+                        ? 'This post can be indexed by search engines' 
+                        : 'This post won\'t appear in search results'}
+                    </p>
+                  </div>
+                </label>
+              </div>
+            </Card>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex gap-4">
+            <Button
+              type="submit"
+              disabled={formSubmitting}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white h-12 font-semibold"
+            >
+              {formSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {formData.draft ? 'Saving Draft...' : 'Publishing...'}
+                </>
+              ) : (
+                formData.draft ? 'Save as Draft' : 'Publish Blog Post'
+              )}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.back()}
+              className="h-12 font-semibold border-gray-300"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

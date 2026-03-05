@@ -32,6 +32,9 @@ export default function Header() {
               <Link href="/bulk-qr-generator" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
                 Bulk
               </Link>
+                            <Link href="/blog" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
+                Blog
+              </Link>
               <Link href="/help" className="text-sm font-medium text-neutral-600 hover:underline hover:text-primary transition-colors px-2 py-1">
                 Help
               </Link>
