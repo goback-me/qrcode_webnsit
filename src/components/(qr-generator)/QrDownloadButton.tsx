@@ -6,9 +6,8 @@ interface QrDownloadButtonProps {
 }
 
 export default function QrDownloadButton({ qrDataUrl, format }: QrDownloadButtonProps) {
-  if (!qrDataUrl) return null;
-
   const handleDownload = () => {
+    if (!qrDataUrl) return;
     const link = document.createElement("a");
     link.href = qrDataUrl;
     link.download = `qrcode.${format}`;
@@ -18,9 +17,10 @@ export default function QrDownloadButton({ qrDataUrl, format }: QrDownloadButton
   return (
     <button
       onClick={handleDownload}
-      className="px-4 py-2 bg-green-600 text-white rounded-lg w-full"
+      disabled={!qrDataUrl}
+      className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
     >
-      Download QR
+      {qrDataUrl ? "Download QR" : "Generate to download"}
     </button>
   );
 }

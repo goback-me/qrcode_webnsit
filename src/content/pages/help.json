@@ -246,13 +246,13 @@
       {
         "title": "Video Tutorials",
         "description": "Watch step-by-step video guides on creating and customizing QR codes",
-        "link": "/tutorials",
+        "link": "/blog",
         "icon": "play"
       },
       {
         "title": "Blog & Tips",
         "description": "Explore advanced tips, best practices, and creative uses for QR codes",
-        "link": "/help",
+        "link": "/blog",
         "icon": "book"
       },
       {
@@ -262,9 +262,9 @@
         "icon": "mail"
       },
       {
-        "title": "API Documentation",
-        "description": "Integrate QR code generation into your own applications",
-        "link": "/api-docs",
+        "title": "Product Features",
+        "description": "Review what is currently available in single and bulk generators",
+        "link": "/products",
         "icon": "code"
       }
     ]

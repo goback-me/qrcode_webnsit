@@ -1,7 +1,7 @@
 "use client";
 
 import { Upload, Image, X } from "lucide-react";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function QrLogoUploader({
   onUpload,
@@ -16,13 +16,17 @@ export default function QrLogoUploader({
   const handleFileSelect = (file: File | null) => {
     setSelectedFile(file);
     onUpload(file);
-    if (file) {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-    } else {
-      setPreviewUrl(null);
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
     }
+
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+      return;
+    }
+
+    setPreviewUrl(null);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -39,7 +43,10 @@ export default function QrLogoUploader({
     e.preventDefault();
     setDragOver(false);
     const file = e.dataTransfer.files[0];
-    if (file?.type.startsWith("image/")) handleFileSelect(file);
+
+    if (file?.type.startsWith("image/")) {
+      handleFileSelect(file);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +55,18 @@ export default function QrLogoUploader({
 
   const handleRemoveFile = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
     setSelectedFile(null);
     setPreviewUrl(null);
     onUpload(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const openFilePicker = (e: React.MouseEvent) => {
@@ -61,119 +75,107 @@ export default function QrLogoUploader({
   };
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-      <div className="p-4 sm:p-6 space-y-4">
-        {/* Header */}
-        <div className="space-y-1">
-          <h2 className="text-base sm:text-lg font-semibold text-gray-900">
-            Step 2: Upload Logo
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
-            Add your logo to customize your QR code (optional)
-          </p>
-        </div>
+    <div className="space-y-2">
+      <h2 className="text-sm font-medium text-slate-900">Logo</h2>
 
-        {/* Upload Area */}
-        <div
-          className={`
-            relative rounded-lg border-2 border-dashed transition-all duration-200
-            ${dragOver
-              ? "border-blue-400 bg-blue-50"
-              : selectedFile
-              ? "border-green-300 bg-green-50"
-              : "border-gray-300 bg-gray-50 hover:border-gray-400 hover:bg-gray-100 cursor-pointer"
-            }
-          `}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={!selectedFile ? openFilePicker : undefined}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleInputChange}
-            className="hidden"
-            aria-label="Upload logo image"
-          />
+      <div
+        className={[
+          "relative rounded-[18px] border border-dashed p-3 transition-all duration-200 sm:p-4",
+          dragOver
+            ? "border-blue-400 bg-blue-50"
+            : selectedFile
+              ? "border-emerald-300 bg-emerald-50"
+              : "border-slate-300 bg-slate-50 hover:border-slate-400",
+          !selectedFile ? "cursor-pointer" : "",
+        ].join(" ")}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={!selectedFile ? openFilePicker : undefined}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleInputChange}
+          className="hidden"
+          aria-label="Upload logo image"
+        />
 
-          <div className="p-5 sm:p-8">
-            {selectedFile && previewUrl ? (
-              /* Preview State */
-              <div className="flex flex-row sm:flex-col items-center gap-4 sm:space-y-4">
-                <div className="relative flex-shrink-0">
-                  <img
-                    src={previewUrl}
-                    alt="Logo preview"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-lg border border-gray-200 bg-white"
-                  />
-                  <button
-                    onClick={handleRemoveFile}
-                    className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                    aria-label="Remove logo"
-                  >
-                    <X size={12} />
-                  </button>
-                </div>
-                <div className="flex-1 sm:text-center min-w-0">
-                  <p className="font-medium text-gray-900 text-sm truncate">
-                    {selectedFile.name}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {(selectedFile.size / 1024).toFixed(1)} KB
-                  </p>
-                  <p className="text-xs text-green-600 mt-1">✓ Uploaded successfully</p>
-                  <button
-                    onClick={openFilePicker}
-                    className="mt-2 text-xs text-blue-500 hover:text-blue-700 underline"
-                  >
-                    Change file
-                  </button>
-                </div>
-              </div>
-            ) : (
-              /* Upload State */
-              <div className="flex flex-col items-center space-y-3 text-center">
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-colors ${
-                    dragOver
-                      ? "bg-blue-100 text-blue-600"
-                      : "bg-gray-100 text-gray-400"
-                  }`}
-                >
-                  {dragOver ? <Upload size={20} /> : <Image size={20} />}
-                </div>
+        {selectedFile && previewUrl ? (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="relative h-20 w-20 flex-shrink-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
+              <img
+                src={previewUrl}
+                alt="Logo preview"
+                className="h-full w-full rounded-xl object-contain"
+              />
+              <button
+                onClick={handleRemoveFile}
+                className="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white transition-colors hover:bg-red-600"
+                aria-label="Remove logo"
+              >
+                <X size={12} />
+              </button>
+            </div>
 
-                <div className="space-y-1">
-                  <p className={`text-sm font-medium transition-colors ${
-                    dragOver ? "text-blue-600" : "text-gray-700"
-                  }`}>
-                    {dragOver ? "Drop your logo here" : "Click to upload or drag & drop"}
-                  </p>
-                  <p className="text-xs text-gray-400">PNG, JPG, GIF up to 10MB</p>
-                </div>
-
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-slate-900">
+                {selectedFile.name}
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                {(selectedFile.size / 1024).toFixed(1)} KB
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                  Uploaded
+                </span>
                 <button
                   type="button"
                   onClick={openFilePicker}
-                  className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50"
                 >
-                  <Upload size={15} />
-                  Choose File
+                  <Upload size={14} />
+                  Change file
                 </button>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
+            <div
+              className={[
+                "inline-flex h-11 w-11 items-center justify-center rounded-2xl",
+                dragOver ? "bg-blue-100 text-blue-600" : "bg-white text-slate-400",
+              ].join(" ")}
+            >
+              {dragOver ? <Upload size={20} /> : <Image size={20} />}
+            </div>
 
-        {/* Help Text */}
-        <div className="flex items-start gap-2 text-xs text-gray-400">
-          <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <span className="text-blue-600 font-bold text-[10px]">i</span>
+            <div className="min-w-0 flex-1">
+              <p
+                className={[
+                  "text-sm font-medium transition-colors",
+                  dragOver ? "text-blue-600" : "text-slate-700",
+                ].join(" ")}
+              >
+                {dragOver ? "Drop logo here" : "Upload logo"}
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                PNG, JPG, GIF
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={openFilePicker}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+            >
+              <Upload size={15} />
+              Choose file
+            </button>
           </div>
-          <p>For best results, use a square image with a transparent background.</p>
-        </div>
+        )}
       </div>
     </div>
   );

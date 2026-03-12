@@ -146,210 +146,222 @@ ${
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:space-y-8">
+      {/* Header */}
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">Results & Analytics</h2>
+        <p className="text-sm sm:text-base text-gray-600">Review your generated QR codes and download them</p>
+      </div>
+
       {/* Summary Cards */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="bg-green-50 p-4 rounded-lg">
-          <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="glass-card p-4 sm:p-6 md:p-8">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-green-600">
-                Success Rate
-              </p>
-              <p className="text-2xl font-bold text-green-800">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">Success Rate</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600">
                 {analytics.successRate.toFixed(1)}%
               </p>
+              <p className="text-xs text-gray-600 mt-2">
+                {successfulResults.length}/{results.length} successful
+              </p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-500" />
+            <div className="p-2 sm:p-3 bg-green-100 rounded-lg flex-shrink-0">
+              <CheckCircle className="w-5 sm:w-6 h-5 sm:h-6 text-green-600" />
+            </div>
           </div>
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <div className="flex items-center justify-between">
+        <div className="glass-card p-4 sm:p-6 md:p-8">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-blue-600">
-                Total Generated
-              </p>
-              <p className="text-2xl font-bold text-blue-800">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">Total Generated</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600">
                 {successfulResults.length}
               </p>
+              <p className="text-xs text-gray-600 mt-2">
+                {failedResults.length} failed
+              </p>
             </div>
-            <Layers className="w-8 h-8 text-blue-500" />
+            <div className="p-2 sm:p-3 bg-blue-100 rounded-lg flex-shrink-0">
+              <Layers className="w-5 sm:w-6 h-5 sm:h-6 text-blue-600" />
+            </div>
           </div>
         </div>
 
-        <div className="bg-purple-50 p-4 rounded-lg">
-          <div className="flex items-center justify-between">
+        <div className="glass-card p-4 sm:p-6 md:p-8 sm:col-span-2 md:col-span-1">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-sm text-purple-600">
-                Avg. Time
-              </p>
-              <p className="text-2xl font-bold text-purple-800">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">Avg. Time per Code</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600">
                 {analytics.avgProcessingTime.toFixed(0)}ms
               </p>
+              <p className="text-xs text-gray-600 mt-2">
+                Processing speed
+              </p>
             </div>
-            <Clock className="w-8 h-8 text-purple-500" />
+            <div className="p-2 sm:p-3 bg-purple-100 rounded-lg flex-shrink-0">
+              <Clock className="w-5 sm:w-6 h-5 sm:h-6 text-purple-600" />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex gap-2 justify-end">
+      {/* Action Buttons - Prominent and Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row gap-3 sticky top-20 z-10 bg-white/80 backdrop-blur p-4 rounded-lg border border-gray-200">
         <Button
           onClick={downloadAll}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
           disabled={successfulResults.length === 0}
+          className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 sm:py-4 text-sm sm:text-base font-semibold rounded-lg transition-all shadow-lg"
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-4 sm:w-5 h-4 sm:h-5 mr-2" />
           Download All ({successfulResults.length})
         </Button>
-        <Button variant="outline" onClick={onReset}>
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Start Over
+        <Button 
+          onClick={onReset}
+          className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 sm:py-4 text-sm sm:text-base font-semibold rounded-lg transition-all"
+        >
+          <RefreshCw className="w-4 sm:w-5 h-4 sm:h-5 mr-2" />
+          Generate Again
         </Button>
       </div>
 
-      {/* Successful QR Codes */}
+      {/* Successful QR Codes Table */}
       {successfulResults.length > 0 && (
-        <Card className="p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <CheckCircle className="w-5 h-5 text-green-500" />
-            <h3 className="text-lg font-semibold text-gray-900">
-              Successful QR Codes ({successfulResults.length})
-            </h3>
+        <div className="glass-card p-4 sm:p-6 md:p-8">
+          <div className="flex items-center gap-2 sm:gap-3 mb-6 pb-6 border-b border-gray-200 flex-wrap">
+            <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
+              <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-600" />
+            </div>
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+                Successful QR Codes
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600">{successfulResults.length} codes ready to download</p>
+            </div>
           </div>
 
-          <div className="max-h-96 overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-green-50 sticky top-0">
-                <tr>
-                  <th className="text-left p-3">Preview</th>
-                  <th className="text-left p-3">Name</th>
-                  <th className="text-left p-3">URL</th>
-                  <th className="text-left p-3">Category</th>
-                  <th className="text-left p-3">Filename</th>
-                  <th className="text-left p-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {successfulResults.map((result, index) => (
-                  <tr
-                    key={index}
-                    className="border-t border-neutral-200 hover:bg-neutral-50"
-                  >
-                    <td className="p-3">
-                      <img
-                        src={result.dataURL}
-                        alt={result.name || "QR Code"}
-                        className="w-12 h-12 object-contain border border-neutral-200 rounded"
-                      />
-                    </td>
-                    <td className="p-3 font-medium">
-                      {result.name || `QR ${index + 1}`}
-                    </td>
-                    <td
-                      className="p-3 max-w-xs truncate text-neutral-600 text-xs"
-                      title={result.url}
-                    >
-                      {result.url}
-                    </td>
-                    <td className="p-3">
-                      <Badge variant="outline" className="text-xs">
-                        {result.category || "Uncategorized"}
-                      </Badge>
-                    </td>
-                    <td className="p-3">
-                      <span className="text-gray-700 font-mono text-xs">
-                        {result.filename}
-                      </span>
-                    </td>
-                    <td className="p-3">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => downloadSingle(result)}
-                        className="flex items-center gap-1"
-                      >
-                        <Download className="w-3 h-3" />
-                        Download
-                      </Button>
-                    </td>
+          <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8">
+            <div className="inline-block min-w-full px-4 sm:px-6 md:px-8">
+              <table className="w-full text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 bg-gray-50">
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700">Preview</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700">Name</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700 hidden sm:table-cell">URL</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700 hidden md:table-cell">Category</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {successfulResults.slice(0, 10).map((result, index) => (
+                    <tr key={index} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                      <td className="px-2 sm:px-3 py-3">
+                        <img
+                          src={result.dataURL}
+                          alt={result.name || "QR Code"}
+                          className="w-10 sm:w-12 h-10 sm:h-12 object-contain border border-gray-200 rounded-lg p-1"
+                        />
+                      </td>
+                      <td className="px-2 sm:px-3 py-3">
+                        <p className="font-medium text-gray-900 text-xs sm:text-sm truncate">
+                          {result.name || `QR ${index + 1}`}
+                        </p>
+                      </td>
+                      <td className="px-2 sm:px-3 py-3 max-w-xs truncate text-gray-600 hidden sm:table-cell">
+                        <span className="text-xs" title={result.url}>{result.url}</span>
+                      </td>
+                      <td className="px-2 sm:px-3 py-3 hidden md:table-cell">
+                        <Badge className="bg-blue-100 text-blue-700 text-xs">
+                          {result.category || "Uncategorized"}
+                        </Badge>
+                      </td>
+                      <td className="px-2 sm:px-3 py-3">
+                        <Button
+                          size="sm"
+                          onClick={() => downloadSingle(result)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white text-xs py-1 px-2 sm:px-3"
+                        >
+                          <Download className="w-3 h-3" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {successfulResults.length > 10 && (
+                <div className="text-center py-3 text-xs text-gray-600 border-t border-gray-200 mt-3">
+                  Showing 10 of {successfulResults.length} — Download all to get the rest
+                </div>
+              )}
+            </div>
           </div>
-        </Card>
+        </div>
       )}
 
-      {/* Failed QR Codes */}
+      {/* Failed QR Codes Table */}
       {failedResults.length > 0 && (
-        <Card className="p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <XCircle className="w-5 h-5 text-red-500" />
-            <h3 className="text-lg font-semibold text-gray-900">
-              Failed QR Codes ({failedResults.length})
-            </h3>
+        <div className="glass-card p-4 sm:p-6 md:p-8">
+          <div className="flex items-center gap-2 sm:gap-3 mb-6 pb-6 border-b border-gray-200 flex-wrap">
+            <div className="p-2 bg-red-100 rounded-lg flex-shrink-0">
+              <XCircle className="w-4 sm:w-5 h-4 sm:h-5 text-red-600" />
+            </div>
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+                Failed QR Codes
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600">{failedResults.length} codes that couldn't be generated</p>
+            </div>
           </div>
 
-          <div className="max-h-96 overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-red-50 sticky top-0">
-                <tr>
-                  <th className="text-left p-3">Name</th>
-                  <th className="text-left p-3">URL</th>
-                  <th className="text-left p-3">Error</th>
-                </tr>
-              </thead>
-              <tbody>
-                {failedResults.map((result, index) => (
-                  <tr
-                    key={index}
-                    className="border-t border-neutral-200 hover:bg-red-50/50"
-                  >
-                    <td className="p-3 font-medium">
-                      {result.name || `QR ${index + 1}`}
-                    </td>
-                    <td
-                      className="p-3 max-w-xs truncate text-neutral-600 text-xs"
-                      title={result.url}
-                    >
-                      {result.url}
-                    </td>
-                    <td className="p-3">
-                      <span className="text-red-600 text-xs font-medium bg-red-50 px-2 py-1 rounded">
-                        {result.error}
-                      </span>
-                    </td>
+          <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8">
+            <div className="inline-block min-w-full px-4 sm:px-6 md:px-8">
+              <table className="w-full text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 bg-gray-50">
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700">Name</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700 hidden sm:table-cell">URL</th>
+                    <th className="text-left px-2 sm:px-3 py-3 font-semibold text-gray-700">Error</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {failedResults.map((result, index) => (
+                    <tr key={index} className="border-b border-gray-100 hover:bg-red-50 transition-colors">
+                      <td className="px-2 sm:px-3 py-3">
+                        <p className="font-medium text-gray-900 text-xs sm:text-sm">
+                          {result.name || `QR ${index + 1}`}
+                        </p>
+                      </td>
+                      <td className="px-2 sm:px-3 py-3 max-w-xs truncate text-gray-600 hidden sm:table-cell">
+                        <span className="text-xs" title={result.url}>{result.url}</span>
+                      </td>
+                      <td className="px-2 sm:px-3 py-3">
+                        <span className="text-red-700 text-xs bg-red-100 px-2 sm:px-3 py-1 rounded-full font-medium whitespace-nowrap">
+                          {result.error}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {/* Category Breakdown */}
       {Object.keys(analytics.categoriesCount).length > 0 && (
-        <Card className="p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">
-            Category Breakdown
-          </h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Object.entries(analytics.categoriesCount).map(
-              ([category, count]) => (
-                <div
-                  key={category}
-                  className="text-center p-3 bg-neutral-50 rounded-lg"
-                >
-                  <p className="text-sm font-medium text-gray-900">
-                    {category}
-                  </p>
-                  <p className="text-2xl font-bold text-primary">{count}</p>
-                </div>
-              )
-            )}
+        <div className="glass-card p-4 sm:p-6 md:p-8">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Category Breakdown</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+            {Object.entries(analytics.categoriesCount).map(([category, count]) => (
+              <div key={category} className="text-center p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                <p className="text-xs sm:text-sm font-medium text-gray-900 mb-1 sm:mb-2 truncate">{category}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-blue-600">{count}</p>
+              </div>
+            ))}
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

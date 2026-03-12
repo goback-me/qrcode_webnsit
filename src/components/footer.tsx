@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-200 pt-6 md:pt-8 mt-6 md:mt-8">
-          <p className="text-center muted-text text-xs md:text-sm">© 2025 GENQR. All rights reserved.</p>
+          <p className="text-center muted-text text-xs md:text-sm">© 2026 GENQR. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
-import { Poppins , DM_Sans} from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header"; 
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster"; 
-
-// Configure Poppins font
-const poppins = Poppins({
+  
+const googleSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-dmSans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-googleSans",
   display: "swap",
 });
 
@@ -57,7 +49,7 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${poppins.variable} ${dmSans.variable} site-bg`}>
+      <body className={`${googleSans.className} ${googleSans.variable} site-bg`}>
         <Header />
         <main className="relative z-10">
           {children}

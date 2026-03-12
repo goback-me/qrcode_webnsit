@@ -1,157 +1,209 @@
-import { Card } from "@/components/ui/card";
-import { 
-  Palette, 
-  RefreshCw, 
-  Sparkles, 
-  Printer, 
-  Wifi, 
-  ScanLine, 
-  Settings, 
-  Wrench,
-  Megaphone,
-  Share2,
-  BarChart3,
-  Cpu
+import Link from "next/link";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Download,
+  FileText,
+  Globe,
+  Image,
+  Layers,
+  Mail,
+  Palette,
+  Phone,
+  Users,
+  Wifi,
 } from "lucide-react";
-import featuresData from "@/content/pages/products.json";
 import { Metadata } from "next";
+import Reveal from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
-  title: "Dynamic & Custom QR Code Generator Features – Free Online Tool | Gen QR Generator",
+  title: "QR Generator Features | Gen QR Generator",
   description:
-    "Explore powerful QR code generator features: dynamic QR codes, custom designs with logos, 3D & animated codes, bulk generation, WiFi QR codes, and more. Perfect for business, marketing, and personal use.",
-        alternates: {
+    "See exactly what you can create with Gen QR Generator, including URL, WiFi, vCard, email, phone, and bulk QR generation.",
+  alternates: {
     canonical: "https://www.genqrgenerator.com/products",
   },
 };
 
-// Type-safe icon mapping - this is the key fix
-const iconMap: { [key: string]: any } = {
-  palette: Palette,
-  refresh: RefreshCw,
-  sparkles: Sparkles,
-  printer: Printer,
-  wifi: Wifi,
-  scan: ScanLine,
-  settings: Settings,
-  tool: Wrench,
-  megaphone: Megaphone,
-  share2: Share2,
-  barChart: BarChart3,
-  cpu: Cpu
-};
+const singleGeneratorFeatures = [
+  {
+    title: "Multiple QR types",
+    description: "Create Website URL, WiFi, vCard, Plain Text, Email, and Phone QR codes.",
+    icon: Layers,
+  },
+  {
+    title: "Logo upload",
+    description: "Add your logo to the center of the QR code for a branded look.",
+    icon: Image,
+  },
+  {
+    title: "Design controls",
+    description: "Set format, size, and logo corner style from one simple panel.",
+    icon: Palette,
+  },
+  {
+    title: "Flexible exports",
+    description: "Download in PNG, SVG, or JPEG based on your use case.",
+    icon: Download,
+  },
+];
+
+const bulkFeatures = [
+  {
+    title: "CSV and manual input",
+    description: "Generate many QR codes with CSV import or manual list input.",
+    icon: FileText,
+  },
+  {
+    title: "Batch processing",
+    description: "Generate a large set of QR codes in one run.",
+    icon: Layers,
+  },
+  {
+    title: "Download workflow",
+    description: "Review outputs and download your generated assets quickly.",
+    icon: Download,
+  },
+  {
+    title: "Result tracking",
+    description: "See generation results and progress at a glance.",
+    icon: CheckCircle2,
+  },
+];
+
+const supportedTypes = [
+  { label: "Website URL", icon: Globe },
+  { label: "WiFi", icon: Wifi },
+  { label: "vCard", icon: Users },
+  { label: "Plain Text", icon: FileText },
+  { label: "Email", icon: Mail },
+  { label: "Phone", icon: Phone },
+];
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-8 md:py-16 lg:py-24 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 md:mb-6 text-gray-900 leading-tight">
-            {featuresData.hero.title}
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 leading-relaxed px-2 md:px-0">
-            {featuresData.hero.subtitle}
-          </p>
-          <a
-            href={featuresData.hero.ctaLink}
-            className="inline-block px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-200 font-semibold text-base md:text-lg"
-          >
-            {featuresData.hero.ctaText}
-          </a>
-        </div>
+    <div className="min-h-screen bg-slate-50">
+      <section className="border-b border-slate-200 bg-white">
+        <Reveal className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-20">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+              Products
+            </span>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
+              Build QR codes with tools you can actually use
+            </h1>
+            <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">
+              No confusing extras. Just the real features available in Gen QR Generator, with a clear path to either single QR creation or bulk generation.
+            </p>
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl">
+            <Link
+              href="/#generator"
+              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+            >
+              <p className="text-sm font-semibold text-slate-500">Single QR Generator</p>
+              <h2 className="mt-2 text-2xl font-bold text-slate-900">Create one QR now</h2>
+              <p className="mt-2 text-sm text-slate-600">Perfect for a single URL, contact card, WiFi, email, text, or phone QR code.</p>
+              <span className="mt-4 inline-flex items-center text-sm font-semibold text-blue-700">
+                Go to generator <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+
+            <Link
+              href="/bulk-qr-generator"
+              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+            >
+              <p className="text-sm font-semibold text-slate-500">Bulk QR Generator</p>
+              <h2 className="mt-2 text-2xl font-bold text-slate-900">Generate in batches</h2>
+              <p className="mt-2 text-sm text-slate-600">Best for campaigns, inventory, events, and large QR batches from CSV or lists.</p>
+              <span className="mt-4 inline-flex items-center text-sm font-semibold text-blue-700">
+                Go to bulk generator <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-8 md:py-16">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8 md:mb-12 leading-tight">
-          {featuresData.features.sectionTitle}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto">
-          {featuresData.features.items.map((feature: any) => {
-            const Icon = iconMap[feature.icon as string] || Settings;
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="mb-8 md:mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Single QR Generator Features</h2>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {singleGeneratorFeatures.map((feature) => {
+            const Icon = feature.icon;
             return (
-              <Card
-                key={feature.id}
-                className="p-4 md:p-6 hover:shadow-xl transition-shadow duration-300 border-0 bg-white"
-              >
-                <div className="flex items-start gap-3 md:gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-base md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </Card>
+              <Reveal key={feature.title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-4 text-lg font-semibold text-slate-900">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
+              </Reveal>
             );
           })}
         </div>
       </section>
 
-      {/* Use Cases Section */}
-      <section className="bg-gray-50 py-8 md:py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8 md:mb-12 leading-tight">
-            {featuresData.useCases.sectionTitle}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-            {featuresData.useCases.items.map((useCase: any, index: number) => {
-              const Icon = iconMap[useCase.icon as string] || Megaphone;
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+          <div className="mb-8 md:mb-10">
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Bulk Generator Features</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {bulkFeatures.map((feature) => {
+              const Icon = feature.icon;
               return (
-                <Card
-                  key={index}
-                  className="p-4 md:p-6 border-0 bg-white hover:shadow-lg transition-shadow duration-300"
-                >
-                  <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
-                    <div className="w-9 h-9 md:w-10 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
-                    </div>
-                    <h3 className="text-base md:text-lg font-semibold text-gray-900">
-                      {useCase.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    {useCase.description}
-                  </p>
-                </Card>
+                <Reveal key={feature.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white text-slate-700 shadow-sm">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-slate-900">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
+                </Reveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-8 md:py-16">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8 md:mb-12 leading-tight">
-          {featuresData.faq.sectionTitle}
-        </h2>
-        <div className="max-w-3xl mx-auto space-y-3 md:space-y-6">
-          {featuresData.faq.items.map((faq: any, index: number) => (
-            <Card key={index} className="p-4 md:p-6 border-0 bg-white shadow-md">
-              <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3">
-                {faq.question}
-              </h3>
-              <p className="text-sm md:text-base text-gray-600 leading-relaxed">{faq.answer}</p>
-            </Card>
-          ))}
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 md:p-8">
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Supported QR Types</h2>
+          <p className="mt-2 text-sm text-slate-600 sm:text-base">These are the QR code types currently available in the main generator.</p>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {supportedTypes.map((type) => {
+              const Icon = type.icon;
+              return (
+                <Reveal key={type.label} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span className="text-sm font-medium text-slate-800">{type.label}</span>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 leading-tight">
-            {featuresData.cta.title}
-          </h2>
-          <p className="text-base md:text-lg text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2 md:px-0">
-            {featuresData.cta.subtitle}
-          </p>
+      <section className="border-t border-slate-200 bg-slate-900 py-10 md:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-white sm:text-3xl">Choose your path and start generating</h2>
+              <p className="mt-2 text-sm text-slate-300 sm:text-base">Single QR for quick tasks, or bulk mode for high-volume workflows.</p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link href="/#generator" className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100">
+                Open QR Generator
+              </Link>
+              <Link href="/bulk-qr-generator" className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500">
+                Open Bulk Generator
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

@@ -249,56 +249,90 @@ export default function QRGenerator({
     (inputMethod === "csv" && csvData.length > 0);
 
   return (
-    <div className="space-y-4">
-      {/* No input provided */}
+    <div className="space-y-3 sm:space-y-4">
+      {/* No input state */}
       {!isGenerating && results.length === 0 && !hasInput && (
-        <div className="text-center py-8">
+        <div className="glass-card p-6 sm:p-8 text-center">
+          <p className="text-gray-600 text-base sm:text-lg mb-4">
+            Enter some URLs or upload a CSV file to get started
+          </p>
           <Button
-            variant="outline"
-            className="hover:bg-gray-100 w-full border-1 border-gray-700"
             disabled
+            className="bg-gray-400 cursor-not-allowed text-white w-full py-4 sm:py-6 text-base sm:text-lg"
           >
-            Put URL For Input First
+            Ready to Generate
           </Button>
         </div>
       )}
 
-      {/* Ready to Generate */}
+      {/* Ready to generate state */}
       {!isGenerating && results.length === 0 && hasInput && (
-        <div className="text-center py-8 w-full">
+        <div className="glass-card p-6 sm:p-8">
           <Button
             onClick={generateBulkQRCodes}
             disabled={isGenerating}
-            className="bg-green-600 text-white hover:bg-blue-600 w-full"
+            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white w-full py-4 sm:py-6 text-base sm:text-lg font-semibold rounded-lg transition-all shadow-lg"
           >
-            Start Bulk Generation
+            Generate QR Codes Now
           </Button>
-        </div>
-      )}
-
-      {/* Generation in Progress */}
-      {isGenerating && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Processing QR codes...</span>
-            <span className="text-sm text-neutral-500">
-              {Math.round(progress)}%
-            </span>
-          </div>
-          <Progress value={progress} className="w-full" />
-          <p className="text-xs text-neutral-500 text-center">
-            This may take a few moments depending on the number of URLs
+          <p className="text-center text-xs sm:text-sm text-gray-600 mt-3">
+            Click to generate{" "}
+            <span className="font-semibold">
+              {inputMethod === "csv"
+                ? csvData.length
+                : urls.split("\n").filter((u) => u.trim()).length}
+            </span>{" "}
+            QR codes
           </p>
         </div>
       )}
 
-      {/* Generation Complete */}
+      {!isGenerating && results.length === 0 && hasInput && (
+        <div className="sm:hidden fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 p-3 pb-4 backdrop-blur">
+          <Button
+            onClick={generateBulkQRCodes}
+            disabled={isGenerating}
+            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white w-full py-6 text-base font-semibold rounded-xl shadow-lg"
+          >
+            Generate QR Codes Now
+          </Button>
+        </div>
+      )}
+
+      {!isGenerating && results.length === 0 && hasInput && (
+        <div className="h-20 sm:hidden" aria-hidden="true" />
+      )}
+
+      {/* Generating state */}
+      {isGenerating && (
+        <div className="glass-card p-6 sm:p-8 space-y-4">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h4 className="text-base sm:text-lg font-semibold text-gray-900">Generating Your QR Codes</h4>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">This may take a moment...</p>
+            </div>
+            <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 flex-shrink-0">
+              {Math.round(progress)}%
+            </span>
+          </div>
+          <Progress value={progress} className="h-2.5" />
+          <p className="text-xs text-gray-500 text-center">
+            Processing QR codes in progress...
+          </p>
+        </div>
+      )}
+
+      {/* Generation complete state */}
       {!isGenerating && results.length > 0 && (
-        <div className="flex items-center justify-center flex-col">
+        <div className="glass-card p-6 sm:p-8">
+          <div className="bg-green-50 border-l-4 border-green-500 p-3 sm:p-4 rounded mb-4 sm:mb-6">
+            <p className="text-green-800 font-semibold text-sm sm:text-base">✓ Generation Complete!</p>
+            <p className="text-xs sm:text-sm text-green-700">Your QR codes are ready. Scroll down to view and download them.</p>
+          </div>
           <Button
             onClick={generateBulkQRCodes}
             disabled={isGenerating || !hasInput}
-            className="bg-blue-600 text-white hover:bg-blue-400 mt-10 w-full"
+            className="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 sm:py-6 text-base sm:text-lg font-semibold rounded-lg"
           >
             Generate More
           </Button>

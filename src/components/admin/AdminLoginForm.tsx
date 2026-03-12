@@ -14,7 +14,6 @@ export function AdminLoginForm() {
   const supabase = createBrowserClientInstance();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isSignUp, setIsSignUp] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -38,29 +37,6 @@ export function AdminLoginForm() {
 
       let result;
 
-      if (isSignUp) {
-        result = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/admin/blog/auth/callback`,
-          },
-        });
-
-        if (result.error) {
-          throw result.error;
-        }
-
-        // After signup, try to sign in
-        const signInResult = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
-
-        if (signInResult.error) {
-          throw signInResult.error;
-        }
-      } else {
         result = await supabase.auth.signInWithPassword({
           email: formData.email,
           password: formData.password,
@@ -69,7 +45,6 @@ export function AdminLoginForm() {
         if (result.error) {
           throw result.error;
         }
-      }
 
       // Clear form
       setFormData({ email: '', password: '' });
@@ -90,9 +65,6 @@ export function AdminLoginForm() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Login</h1>
-          <p className="text-gray-600">
-            {isSignUp ? 'Create admin account to publish posts' : 'Sign in to create blog posts'}
-          </p>
         </div>
 
         {error && (
@@ -154,32 +126,8 @@ export function AdminLoginForm() {
               disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11 font-semibold"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {isSignUp ? 'Creating Account...' : 'Signing in...'}
-                </>
-              ) : isSignUp ? (
-                'Create Account'
-              ) : (
-                'Sign In'
-              )}
+              Sign In
             </Button>
-
-            {/* Toggle */}
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setError(null);
-                  setFormData({ email: '', password: '' });
-                }}
-                className="text-blue-600 hover:text-blue-700 font-medium text-sm"
-              >
-                {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
-              </button>
-            </div>
           </form>
         </Card>
 
