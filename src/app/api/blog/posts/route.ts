@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { 
       title, 
+      slug: providedSlug,
       content, 
       excerpt, 
       featured_image, 
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const slug = generateSlug(title);
+    const slug = providedSlug ? generateSlug(providedSlug) : generateSlug(title);
     const readingTime = calculateReadingTime(content);
 
     console.log('Creating blog post - Title:', title, 'Slug:', slug, 'Author ID:', user.id);

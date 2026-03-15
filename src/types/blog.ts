@@ -22,6 +22,7 @@ export interface BlogPost {
 
 export interface CreateBlogPostInput {
   title: string;
+  slug?: string;
   content: string;
   excerpt: string;
   featured_image?: string;
