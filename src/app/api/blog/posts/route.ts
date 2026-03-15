@@ -21,15 +21,33 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient();
 
-    // Get the authenticated user
-    const {
+    // Try cookie-based session first
+    let {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
 
+    // Fallback: allow Authorization: Bearer <access_token>
+    if (authError || !user) {
+      const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+      const bearerToken = authHeader?.startsWith('Bearer ')
+        ? authHeader.slice('Bearer '.length).trim()
+        : '';
+
+      if (bearerToken) {
+        const bearerAuthResult = await supabase.auth.getUser(bearerToken);
+        user = bearerAuthResult.data.user;
+        authError = bearerAuthResult.error;
+      }
+    }
+
     if (authError || !user) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized: Please log in to create a blog post' },
+        {
+          success: false,
+          error:
+            'Unauthorized: Please log in or provide a valid Bearer token to create a blog post',
+        },
         { status: 401 }
       );
     }
