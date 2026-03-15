@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { createClient } from "@supabase/supabase-js";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.genqrgenerator.com";
@@ -40,45 +41,53 @@ const staticRoutes: MetadataRoute.Sitemap = [
   },
 ];
 
-type BlogApiPost = {
-  slug?: string;
-  updated_at?: string;
-  created_at?: string;
+type SitemapBlogPost = {
+  slug: string | null;
+  updated_at: string | null;
+  created_at: string | null;
 };
 
-async function getBlogPostsFromApi(): Promise<BlogApiPost[]> {
-  const pageSize = 100;
-  let page = 1;
-  let total = 0;
-  const allPosts: BlogApiPost[] = [];
+async function getBlogPostsForSitemap(): Promise<SitemapBlogPost[]> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    process.env.SUPABASE_ANON_KEY;
 
-  do {
-    const response = await fetch(
-      `${SITE_URL}/api/blog/posts?page=${page}&pageSize=${pageSize}`,
-      {
-        method: "GET",
-        cache: "no-store",
-        next: { revalidate: 0 },
-      }
-    );
+  if (!supabaseUrl || !supabaseKey) {
+    return [];
+  }
 
-    if (!response.ok) {
-      break;
-    }
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const result = await response.json();
-    const posts = (result?.data?.posts ?? []) as BlogApiPost[];
-    total = Number(result?.data?.total ?? 0);
+  const strictQuery = await supabase
+    .from("blog_posts")
+    .select("slug, updated_at, created_at")
+    .eq("published", true)
+    .eq("draft", false)
+    .eq("is_indexed", true)
+    .order("created_at", { ascending: false });
 
-    allPosts.push(...posts);
-    page += 1;
-  } while (allPosts.length < total);
+  if (!strictQuery.error && strictQuery.data && strictQuery.data.length > 0) {
+    return strictQuery.data;
+  }
 
-  return allPosts;
+  const relaxedQuery = await supabase
+    .from("blog_posts")
+    .select("slug, updated_at, created_at")
+    .eq("published", true)
+    .or("draft.eq.false,draft.is.null")
+    .order("created_at", { ascending: false });
+
+  if (relaxedQuery.error || !relaxedQuery.data) {
+    return [];
+  }
+
+  return relaxedQuery.data;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getBlogPostsFromApi();
+  const posts = await getBlogPostsForSitemap();
 
   const blogRoutes: MetadataRoute.Sitemap = posts
     .filter((post) => Boolean(post.slug))
