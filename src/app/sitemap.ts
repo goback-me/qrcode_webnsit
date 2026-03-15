@@ -1,10 +1,11 @@
 import { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
 
-const SITE_URL = "https://www.genqrgenerator.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.genqrgenerator.com";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+export const runtime = "nodejs";
 
 const staticRoutes: MetadataRoute.Sitemap = [
   {
@@ -39,37 +40,56 @@ const staticRoutes: MetadataRoute.Sitemap = [
   },
 ];
 
+type BlogApiPost = {
+  slug?: string;
+  updated_at?: string;
+  created_at?: string;
+};
+
+async function getBlogPostsFromApi(): Promise<BlogApiPost[]> {
+  const pageSize = 100;
+  let page = 1;
+  let total = 0;
+  const allPosts: BlogApiPost[] = [];
+
+  do {
+    const response = await fetch(
+      `${SITE_URL}/api/blog/posts?page=${page}&pageSize=${pageSize}`,
+      {
+        method: "GET",
+        cache: "no-store",
+        next: { revalidate: 0 },
+      }
+    );
+
+    if (!response.ok) {
+      break;
+    }
+
+    const result = await response.json();
+    const posts = (result?.data?.posts ?? []) as BlogApiPost[];
+    total = Number(result?.data?.total ?? 0);
+
+    allPosts.push(...posts);
+    page += 1;
+  } while (allPosts.length < total);
+
+  return allPosts;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-  const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
+  const posts = await getBlogPostsFromApi();
 
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return staticRoutes;
-  }
-
-  const supabase = createClient(
-    supabaseUrl,
-    supabaseAnonKey
-  );
-
-  const { data: posts } = await supabase
-    .from("blog_posts")
-    .select("slug, updated_at, created_at")
-    .eq("published", true)
-    .eq("draft", false)
-    .eq("is_indexed", true)
-    .order("created_at", { ascending: false });
-
-  const blogRoutes: MetadataRoute.Sitemap = (posts ?? [])
+  const blogRoutes: MetadataRoute.Sitemap = posts
     .filter((post) => Boolean(post.slug))
     .map((post) => ({
-    url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: post.updated_at ? new Date(post.updated_at) : new Date(post.created_at),
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: post.updated_at
+        ? new Date(post.updated_at)
+        : new Date(post.created_at ?? new Date().toISOString()),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }));
 
   return [...staticRoutes, ...blogRoutes];
 }
