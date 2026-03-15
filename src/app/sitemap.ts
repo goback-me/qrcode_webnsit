@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 
 const SITE_URL = "https://www.genqrgenerator.com";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const staticRoutes: MetadataRoute.Sitemap = [
   {
     url: `${SITE_URL}/`,
@@ -37,9 +40,18 @@ const staticRoutes: MetadataRoute.Sitemap = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+  const supabaseAnonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return staticRoutes;
+  }
+
   const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    supabaseUrl,
+    supabaseAnonKey
   );
 
   const { data: posts } = await supabase
@@ -50,7 +62,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .eq("is_indexed", true)
     .order("created_at", { ascending: false });
 
-  const blogRoutes: MetadataRoute.Sitemap = (posts ?? []).map((post) => ({
+  const blogRoutes: MetadataRoute.Sitemap = (posts ?? [])
+    .filter((post) => Boolean(post.slug))
+    .map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.updated_at ? new Date(post.updated_at) : new Date(post.created_at),
     changeFrequency: "weekly",
