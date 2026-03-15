@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { BlogList } from '@/components/blog/BlogList';
 
 export const metadata: Metadata = {
-  title: 'Blog | QR Code Generator',
-  description: 'Read our latest blog posts about QR codes, web development, and technology insights.',
+  title: 'QR Code Generator Blog – Tips & Guides | GenQRGenerator',
+  description: 'Explore tutorials, tips, and insights on QR code generators with logo, URL, and text. Learn to create QR codes online for free. Read our latest posts now!',
 };
 
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+  {/* Hero Section */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 border-b border-gray-100 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-5xl font-bold text-gray-900 mb-2">Blog</h1>

@@ -17,9 +17,9 @@ import { Metadata } from "next";
 import Reveal from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
-  title: "QR Generator Features | Gen QR Generator",
+  title: "Free QR Code Generator Features & Tools | GenQRGenerator",
   description:
-    "See exactly what you can create with Gen QR Generator, including URL, WiFi, vCard, email, phone, and bulk QR generation.",
+    "Explore our free online QR code generator — create URL, WiFi, vCard, Text, Email & Phone QR codes. Add logos, bulk generate from CSV. Start creating now!",
   alternates: {
     canonical: "https://www.genqrgenerator.com/products",
   },

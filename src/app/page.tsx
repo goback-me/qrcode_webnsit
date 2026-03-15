@@ -7,9 +7,9 @@ import Reveal from "@/components/ui/reveal";
 
 
 export const metadata: Metadata = {
-  title: "Gen QR Generator - Create QR Codes Instantly",
+  title: "Free QR Code Generator – URL, WiFi, vCard & More | GenQRGenerator",
   description:
-    "Generate high-quality QR codes for URLs, PDFs, WhatsApp, and more.",
+    " Generate QR codes free for Website URLs, WiFi, vCard, Text, Email & Phone. Bulk generate from CSV. No sign up required. Create & download yours now!",
 
     alternates: {
     canonical: "https://www.genqrgenerator.com/",
