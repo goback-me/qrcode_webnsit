@@ -19,6 +19,16 @@ import {
 import helpData from "@/content/pages/help.json";
 import { Metadata } from "next";
 import Reveal from "@/components/ui/reveal";
+import Breadcrumb from "@/components/Breadcrumb";
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.genqrgenerator.com' },
+    { '@type': 'ListItem', position: 2, name: 'Help', item: 'https://www.genqrgenerator.com/help' },
+  ],
+};
 
 export const metadata: Metadata = {
   title: helpData.meta.title,
@@ -49,8 +59,13 @@ const getIcon = (iconName: string): LucideIcon => {
 export default function HelpPage() {
   return (
     <div className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="border-b border-slate-200 bg-white">
         <Reveal className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+          <Breadcrumb items={[{ label: 'Help' }]} className="mb-4" />
           <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
             Help Center
           </span>

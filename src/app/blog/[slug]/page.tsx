@@ -75,5 +75,67 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  return <BlogDetail slug={slug} />;
+  const post = await getBlogPost(slug);
+  const siteUrl = 'https://www.genqrgenerator.com';
+
+  const breadcrumbSchema = post
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+          { '@type': 'ListItem', position: 3, name: post.title, item: `${siteUrl}/blog/${slug}` },
+        ],
+      }
+    : null;
+
+  const articleSchema = post
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.created_at,
+        dateModified: post.updated_at || post.created_at,
+        image: post.featured_image || `${siteUrl}/business_qrcode.svg`,
+        author: {
+          '@type': 'Organization',
+          name: 'GenQRGenerator',
+          url: siteUrl,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'GenQRGenerator',
+          url: siteUrl,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${siteUrl}/business_qrcode.svg`,
+          },
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${siteUrl}/blog/${slug}`,
+        },
+        keywords: post.tags?.join(', '),
+      }
+    : null;
+
+  return (
+    <>
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+      {articleSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+      )}
+      <BlogDetail slug={slug} postTitle={post?.title} />
+    </>
+  );
 }

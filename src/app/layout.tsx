@@ -36,6 +36,32 @@ export const metadata: Metadata = {
   },
 };
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GenQRGenerator',
+  url: 'https://www.genqrgenerator.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://www.genqrgenerator.com/?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GenQRGenerator',
+  url: 'https://www.genqrgenerator.com',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.genqrgenerator.com/business_qrcode.svg',
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,6 +74,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="theme-color" content="#ffffff" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body className={`${googleSans.className} ${googleSans.variable} site-bg`}>
         <Header />

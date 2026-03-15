@@ -4,15 +4,17 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Eye, Calendar, ArrowLeft } from 'lucide-react';
+import { Clock, Eye, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import type { BlogPost } from '@/types/blog';
+import Breadcrumb from '@/components/Breadcrumb';
 
 interface BlogDetailProps {
   slug: string;
+  postTitle?: string;
 }
 
-export function BlogDetail({ slug }: BlogDetailProps) {
+export function BlogDetail({ slug, postTitle }: BlogDetailProps) {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -128,8 +130,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               href="/blog"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
             >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Blog
+              ← Back to Blog
             </Link>
           </div>
         </div>
@@ -140,14 +141,14 @@ export function BlogDetail({ slug }: BlogDetailProps) {
   return (
     <div className="min-h-screen bg-white py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Back Button */}
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 sm:mb-8 transition-colors font-medium"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Blog
-        </Link>
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: 'Blog', href: '/blog' },
+            { label: post?.title || postTitle || slug },
+          ]}
+          className="mb-4"
+        />
 
         {/* Featured Image */}
         {post.featured_image && (

@@ -5,6 +5,27 @@ import Image from "next/image";
 import { Metadata } from "next";
 import Reveal from "@/components/ui/reveal";
 
+const softwareAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'GenQRGenerator – Free QR Code Generator',
+  url: 'https://www.genqrgenerator.com',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Web',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  description:
+    'Free QR code generator for Website URLs, WiFi, vCard, Text, Email and Phone numbers. No sign-up required.',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    ratingCount: '120',
+  },
+};
+
 
 export const metadata: Metadata = {
   title: "Free QR Code Generator – URL, WiFi, vCard & More | GenQRGenerator",
@@ -98,6 +119,10 @@ export default function Home() {
 
   return (
     <div className="font-poppins">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
       {/* Hero Banner with Gradient */}
       <section className="banner-gradient">
         <div className="mt-8 md:mt-16 container py-4 md:py-8">

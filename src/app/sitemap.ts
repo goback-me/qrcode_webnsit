@@ -1,31 +1,61 @@
 import { MetadataRoute } from "next";
+import { createClient } from "@supabase/supabase-js";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-     return [
-    {
-      url: 'https://www.genqrgenerator.com/',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: 'https://www.genqrgenerator.com/products',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.genqrgenerator.com/bulk-qr-generator',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+const SITE_URL = "https://www.genqrgenerator.com";
 
-     {
-      url: 'https://www.genqrgenerator.com/help',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-  ]
+const staticRoutes: MetadataRoute.Sitemap = [
+  {
+    url: `${SITE_URL}/`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 1,
+  },
+  {
+    url: `${SITE_URL}/products`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_URL}/bulk-qr-generator`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_URL}/help`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_URL}/blog`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.9,
+  },
+];
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  const { data: posts } = await supabase
+    .from("blog_posts")
+    .select("slug, updated_at, created_at")
+    .eq("published", true)
+    .eq("draft", false)
+    .eq("is_indexed", true)
+    .order("created_at", { ascending: false });
+
+  const blogRoutes: MetadataRoute.Sitemap = (posts ?? []).map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: post.updated_at ? new Date(post.updated_at) : new Date(post.created_at),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...blogRoutes];
 }
