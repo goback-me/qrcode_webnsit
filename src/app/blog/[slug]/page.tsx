@@ -34,7 +34,7 @@ export async function generateMetadata({
     };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'genqrgenerator.com';
 
   return {
     title: post.meta_title || post.title,
@@ -66,6 +66,9 @@ export async function generateMetadata({
       images: post.featured_image ? [post.featured_image] : [],
     },
     robots: post.is_indexed ? 'index, follow' : 'noindex, nofollow',
+    alternates: {
+      canonical: `${siteUrl}/blog/${post.slug}`,
+    },
   };
 }
 
