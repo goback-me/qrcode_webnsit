@@ -80,7 +80,7 @@ export function CreateBlogForm() {
         throw new Error('You must be logged in to create a blog post');
       }
 
-      const response = await fetch('/api/blog/posts', {
+      const response = await fetch('/api/blog/admin/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
