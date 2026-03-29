@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase.server';
-import { createPublicClient } from '@/lib/supabase.public';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -7,75 +6,73 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const publicSupabase = createPublicClient();
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return NextResponse.json(
+        { success: false, error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
     const { slug } = await params;
 
     console.log('Fetching blog post with slug:', slug);
 
-    // Public first: return published, non-draft posts for everyone.
-    const { data: publishedPost, error: publishedError } = await publicSupabase
-      .from('blog_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('published', true)
-      .eq('draft', false)
-      .single();
+    const restParams = new URLSearchParams({
+      select: '*',
+      slug: `eq.${slug}`,
+      published: 'eq.true',
+      draft: 'eq.false',
+      limit: '1',
+    });
 
-    if (!publishedError && publishedPost) {
-      await publicSupabase
-        .from('blog_posts')
-        .update({ views: (publishedPost.views || 0) + 1 })
-        .eq('id', publishedPost.id);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: publishedPost,
+    const postResponse = await fetch(
+      `${supabaseUrl}/rest/v1/blog_posts?${restParams.toString()}`,
+      {
+        headers: {
+          apikey: supabaseAnonKey,
         },
-        { status: 200 }
+        cache: 'no-store',
+      }
+    );
+
+    if (!postResponse.ok) {
+      const text = await postResponse.text();
+      console.error('Public post fetch error:', text);
+      return NextResponse.json(
+        { success: false, error: 'Failed to fetch blog post' },
+        { status: 500 }
       );
     }
 
-    let userId: string | null = null;
+    const posts = (await postResponse.json()) as Array<Record<string, any>>;
+    const post = posts[0];
 
-    // Optional auth path for draft previews. Errors here should not break public access.
-    try {
-      const supabase = await createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      userId = user?.id ?? null;
-    } catch (authLookupError) {
-      console.warn('Optional auth lookup failed for blog slug route:', authLookupError);
-    }
-
-    if (!userId) {
+    if (!post) {
       return NextResponse.json(
         { success: false, error: 'Blog post not found' },
         { status: 404 }
       );
     }
 
-    const supabase = await createClient();
-    const { data: ownPost, error: ownPostError } = await supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('author_id', userId)
-      .single();
-
-    if (ownPostError) {
-      console.error('Draft lookup error:', ownPostError);
-      return NextResponse.json(
-        { success: false, error: 'Blog post not found' },
-        { status: 404 }
-      );
-    }
+    const nextViews = Number(post.views || 0) + 1;
+    void fetch(`${supabaseUrl}/rest/v1/blog_posts?id=eq.${post.id}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: supabaseAnonKey,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ views: nextViews }),
+      cache: 'no-store',
+    });
 
     return NextResponse.json(
       {
         success: true,
-        data: ownPost,
+        data: post,
       },
       { status: 200 }
     );
