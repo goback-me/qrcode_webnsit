@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase.server';
+import { createPublicClient } from '@/lib/supabase.public';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -6,66 +7,75 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const supabase = await createClient();
+    const publicSupabase = createPublicClient();
     const { slug } = await params;
 
     console.log('Fetching blog post with slug:', slug);
 
-    // Get authenticated user (if any)
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    // First check if post exists at all (published or not)
-    const { data: allData, error: allError } = await supabase
+    // Public first: return published, non-draft posts for everyone.
+    const { data: publishedPost, error: publishedError } = await publicSupabase
       .from('blog_posts')
       .select('*')
-      .eq('slug', slug);
+      .eq('slug', slug)
+      .eq('published', true)
+      .eq('draft', false)
+      .single();
 
-    if (allError) {
-      console.error('Database error:', allError);
+    if (!publishedError && publishedPost) {
+      await publicSupabase
+        .from('blog_posts')
+        .update({ views: (publishedPost.views || 0) + 1 })
+        .eq('id', publishedPost.id);
+
       return NextResponse.json(
-        { success: false, error: 'Database error: ' + allError.message },
-        { status: 500 }
+        {
+          success: true,
+          data: publishedPost,
+        },
+        { status: 200 }
       );
     }
 
-    console.log('Posts found with slug:', allData?.length || 0);
+    let userId: string | null = null;
 
-    if (!allData || allData.length === 0) {
-      console.log('No posts found with slug:', slug);
+    // Optional auth path for draft previews. Errors here should not break public access.
+    try {
+      const supabase = await createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      userId = user?.id ?? null;
+    } catch (authLookupError) {
+      console.warn('Optional auth lookup failed for blog slug route:', authLookupError);
+    }
+
+    if (!userId) {
       return NextResponse.json(
         { success: false, error: 'Blog post not found' },
         { status: 404 }
       );
     }
 
-    const post = allData[0];
-    console.log('Post found - Published:', post.published, 'Draft:', post.draft, 'ID:', post.id);
+    const supabase = await createClient();
+    const { data: ownPost, error: ownPostError } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('slug', slug)
+      .eq('author_id', userId)
+      .single();
 
-    // Check if published and not draft
-    // If it's a draft, only the author can view it
-    if (post.draft || !post.published) {
-      if (!user || user.id !== post.author_id) {
-        return NextResponse.json(
-          { success: false, error: 'Blog post not found' },
-          { status: 404 }
-        );
-      }
-    }
-
-    // Increment view count only for published posts
-    if (post.published && !post.draft) {
-      await supabase
-        .from('blog_posts')
-        .update({ views: (post.views || 0) + 1 })
-        .eq('id', post.id);
+    if (ownPostError) {
+      console.error('Draft lookup error:', ownPostError);
+      return NextResponse.json(
+        { success: false, error: 'Blog post not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(
       {
         success: true,
-        data: post,
+        data: ownPost,
       },
       { status: 200 }
     );

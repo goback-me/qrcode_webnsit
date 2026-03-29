@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase.server';
+import { createPublicClient } from '@/lib/supabase.public';
 import { CreateBlogPostInput } from '@/types/blog';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -135,7 +136,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
