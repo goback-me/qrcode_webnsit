@@ -1,19 +1,32 @@
 import { Metadata } from 'next';
 import { BlogDetail } from '@/components/blog/BlogDetail';
-import { createClient } from '@/lib/supabase.server';
+
+function getSiteUrl() {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.genqrgenerator.com';
+  return raw.startsWith('http://') || raw.startsWith('https://') ? raw : `https://${raw}`;
+}
 
 async function getBlogPost(slug: string) {
   try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('published', true)
-      .eq('draft', false)
-      .single();
+    const siteUrl = getSiteUrl();
+    const response = await fetch(`${siteUrl}/api/blog/posts/${encodeURIComponent(slug)}`, {
+      cache: 'no-store',
+    });
 
-    return data;
+    if (!response.ok) {
+      return null;
+    }
+
+    const payload = (await response.json()) as {
+      success?: boolean;
+      data?: Record<string, any>;
+    };
+
+    if (!payload.success || !payload.data) {
+      return null;
+    }
+
+    return payload.data;
   } catch {
     return null;
   }
@@ -25,16 +38,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const siteUrl = getSiteUrl();
   const post = await getBlogPost(slug);
 
   if (!post) {
     return {
       title: 'Post Not Found',
       description: 'This blog post does not exist.',
+      alternates: {
+        canonical: `${siteUrl}/blog/${slug}`,
+      },
     };
   }
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'genqrgenerator.com';
 
   return {
     title: post.meta_title || post.title,
@@ -79,7 +94,7 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
   const post = await getBlogPost(slug);
-  const siteUrl = 'https://www.genqrgenerator.com';
+  const siteUrl = getSiteUrl();
 
   const breadcrumbSchema = post
     ? {

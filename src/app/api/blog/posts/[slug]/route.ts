@@ -20,8 +20,14 @@ export async function GET(
 
     console.log('Fetching blog post with slug:', slug);
 
+    const publicHeaders = {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${supabaseAnonKey}`,
+    };
+
     const restParams = new URLSearchParams({
-      select: '*',
+      select:
+        'id,title,slug,content,excerpt,featured_image,category,tags,meta_title,meta_description,author,author_id,reading_time,published,draft,is_indexed,views,created_at,updated_at',
       slug: `eq.${slug}`,
       published: 'eq.true',
       draft: 'eq.false',
@@ -31,16 +37,22 @@ export async function GET(
     const postResponse = await fetch(
       `${supabaseUrl}/rest/v1/blog_posts?${restParams.toString()}`,
       {
-        headers: {
-          apikey: supabaseAnonKey,
-        },
+        headers: publicHeaders,
         cache: 'no-store',
       }
     );
 
     if (!postResponse.ok) {
       const text = await postResponse.text();
-      console.error('Public post fetch error:', text);
+      console.error('Public post fetch error:', postResponse.status, text);
+
+      if (postResponse.status === 404 || postResponse.status === 406) {
+        return NextResponse.json(
+          { success: false, error: 'Blog post not found' },
+          { status: 404 }
+        );
+      }
+
       return NextResponse.json(
         { success: false, error: 'Failed to fetch blog post' },
         { status: 500 }
@@ -61,7 +73,7 @@ export async function GET(
     void fetch(`${supabaseUrl}/rest/v1/blog_posts?id=eq.${post.id}`, {
       method: 'PATCH',
       headers: {
-        apikey: supabaseAnonKey,
+        ...publicHeaders,
         'Content-Type': 'application/json',
         Prefer: 'return=minimal',
       },
