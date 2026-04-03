@@ -5,42 +5,79 @@ export default function Footer() {
   const content = getHomePageContent();
   
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="container py-8 md:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 items-start">
-          <div className="md:col-span-2">
-            <h5 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-3">GEN QR</h5>
-            <p className="muted-text text-sm md:text-base mb-4 max-w-md">{content.footer.about}</p>
-            {/* <div className="flex items-center gap-3 mt-4">
-              <a href="#" aria-label="twitter" className="text-neutral-500 hover:text-primary">Twitter</a>
-              <a href="#" aria-label="facebook" className="text-neutral-500 hover:text-primary">Facebook</a>
-              <a href="#" aria-label="linkedin" className="text-neutral-500 hover:text-primary">LinkedIn</a>
-            </div> */}
+    <footer className="bg-white border-t border-[#E5E7EB]">
+      <div className="container py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <h5 className="text-xl font-semibold text-[#111827] mb-3">GenQR</h5>
+            <p className="text-[#6B7280] text-sm leading-relaxed max-w-xs">
+              {content.footer.about}
+            </p>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h6 className="font-semibold text-gray-900 mb-3 md:mb-4 text-sm md:text-base">Quick Links</h6>
-            <ul className="space-y-2">
-              {content.footer.quickLinks.map((link: any, index: number) => (
+            <h6 className="font-semibold text-[#111827] mb-4 text-sm">Quick Links</h6>
+            <ul className="space-y-3">
+              {content.footer.quickLinks.map((link: { title: string; url: string }, index: number) => (
                 <li key={index}>
-                  <Link href={link.url} className="link-accent muted-text hover:underline text-sm md:text-base">
+                  <Link 
+                    href={link.url} 
+                    className="text-[#6B7280] text-sm hover:text-[#4F46E5] transition-colors"
+                  >
                     {link.title}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          
+
+          {/* Resources */}
           <div>
-            <h6 className="font-semibold text-gray-900 mb-3 md:mb-4 text-sm md:text-base">Contact</h6>
-            {content.footer.contact.split('\n').map((line: string, index: number) => (
-              <p key={index} className="muted-text text-sm md:text-base mb-2">{line}</p>
-            ))}
+            <h6 className="font-semibold text-[#111827] mb-4 text-sm">Resources</h6>
+            <ul className="space-y-3">
+              <li>
+                <Link 
+                  href="/blog" 
+                  className="text-[#6B7280] text-sm hover:text-[#4F46E5] transition-colors"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/help" 
+                  className="text-[#6B7280] text-sm hover:text-[#4F46E5] transition-colors"
+                >
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/products" 
+                  className="text-[#6B7280] text-sm hover:text-[#4F46E5] transition-colors"
+                >
+                  QR Types
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Contact */}
+          <div>
+            <h6 className="font-semibold text-[#111827] mb-4 text-sm">Contact</h6>
+            <p className="text-[#6B7280] text-sm leading-relaxed">
+              {content.footer.contact}
+            </p>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-6 md:pt-8 mt-6 md:mt-8">
-          <p className="text-center muted-text text-xs md:text-sm">© 2026 GENQR. All rights reserved.</p>
+        {/* Bottom bar */}
+        <div className="border-t border-[#E5E7EB] pt-8 mt-12">
+          <p className="text-center text-[#6B7280] text-sm">
+            &copy; {new Date().getFullYear()} GenQR. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

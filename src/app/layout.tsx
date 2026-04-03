@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header"; 
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster"; 
-  
-const googleSans = DM_Sans({
+
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-googleSans",
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "QRGen - Free QR Code Generator", 
-  description: "A free, privacy-friendly QR code generator web application...",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://qrgen.local"),
+  title: "GenQR Generator - Free QR Code Generator", 
+  description: "Free QR code generator for Website URLs, WiFi, vCard, Text, Email and Phone numbers. No sign-up required. No watermark.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://genqrgenerator.com"),
   verification: {
     google: "G16UW3Zll9XXi-ZkcLrzUfaWwhLK7wqEPTFVeFAt1oA",
   },
@@ -83,7 +83,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className={`${googleSans.className} ${googleSans.variable} site-bg`}>
+      <body className={`${inter.className} ${inter.variable} font-sans`}>
         <Header />
         <main className="relative z-10">
           {children}

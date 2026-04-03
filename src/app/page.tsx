@@ -1,14 +1,32 @@
 import QRGenerator from "@/components/(qr-generator)/QrGenerator";
-import { CheckCircle, Star, Check, Palette, Zap, Grid3X3, FileText, Download, BookOpen, BarChart3, PencilLine, SlidersHorizontal, ScanLine, Link2, ContactRound, ShieldCheck } from "lucide-react";
+import { 
+  Link2, 
+  Wifi, 
+  Contact, 
+  FileText, 
+  Mail, 
+  Phone,
+  Palette,
+  Zap,
+  Download,
+  BarChart3,
+  Shield,
+  Globe,
+  Check,
+  X,
+  Plus,
+  Minus
+} from "lucide-react";
 import { getHomePageContent } from "@/lib/content";
 import Image from "next/image";
 import { Metadata } from "next";
 import Reveal from "@/components/ui/reveal";
+import { FAQSection } from "@/components/home/FAQSection";
 
 const softwareAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'GenQRGenerator – Free QR Code Generator',
+  name: 'GenQRGenerator - Free QR Code Generator',
   url: 'https://www.genqrgenerator.com',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Web',
@@ -26,13 +44,11 @@ const softwareAppSchema = {
   },
 };
 
-
 export const metadata: Metadata = {
-  title: "Free QR Code Generator – URL, WiFi, vCard & More | GenQRGenerator",
+  title: "Free QR Code Generator - URL, WiFi, vCard & More | GenQR",
   description:
-    " Generate QR codes free for Website URLs, WiFi, vCard, Text, Email & Phone. Bulk generate from CSV. No sign up required. Create & download yours now!",
-
-    alternates: {
+    "Generate QR codes free for Website URLs, WiFi, vCard, Text, Email & Phone. No sign up required. No watermark. Create & download yours now!",
+  alternates: {
     canonical: "https://www.genqrgenerator.com/",
   },
 };
@@ -40,529 +56,463 @@ export const metadata: Metadata = {
 export default function Home() {
   const content = getHomePageContent();
 
-  const howItWorksIcons = [PencilLine, SlidersHorizontal, ScanLine];
-  const useCaseIcons = [Link2, ContactRound, ShieldCheck, Grid3X3, BookOpen, BarChart3];
-  const useCaseAccents = [
-    "border-blue-100 bg-blue-50/50",
-    "border-emerald-100 bg-emerald-50/50",
-    "border-amber-100 bg-amber-50/45",
+  const howItWorksSteps = [
+    {
+      number: "1",
+      title: "Choose QR Type",
+      description: "Select from URL, WiFi, vCard, Text, Email or Phone.",
+      icon: FileText,
+    },
+    {
+      number: "2",
+      title: "Enter Your Content",
+      description: "Add your link, text, or contact details.",
+      icon: Palette,
+    },
+    {
+      number: "3",
+      title: "Download & Share",
+      description: "Get your QR code in PNG, SVG, or PDF format.",
+      icon: Download,
+    },
   ];
 
-  const analyticsStats = [
-    { value: "4.2K", label: "Total scans" },
-    { value: "86%", label: "Mobile" },
-    { value: "42", label: "Countries" },
+  const features = [
+    {
+      title: "Custom Design",
+      description: "Add logos, change colors, and customize your QR codes.",
+      icon: Palette,
+    },
+    {
+      title: "Multiple Formats",
+      description: "Download in PNG, SVG, PDF and more formats.",
+      icon: Download,
+    },
+    {
+      title: "Instant Generation",
+      description: "Create QR codes in seconds with live preview.",
+      icon: Zap,
+    },
+    {
+      title: "Analytics Ready",
+      description: "Track scans and monitor performance.",
+      icon: BarChart3,
+    },
+    {
+      title: "Privacy First",
+      description: "Your data stays private. No tracking.",
+      icon: Shield,
+    },
+    {
+      title: "Works Everywhere",
+      description: "Compatible with all QR code scanners.",
+      icon: Globe,
+    },
+  ];
+
+  const qrTypes = [
+    { label: "URL", icon: Link2 },
+    { label: "WiFi", icon: Wifi },
+    { label: "vCard", icon: Contact },
+    { label: "Text", icon: FileText },
+    { label: "Email", icon: Mail },
+    { label: "Phone", icon: Phone },
+  ];
+
+  const comparisonData = [
+    { feature: "Unlimited QR codes", genqr: true, others: false },
+    { feature: "No sign up required", genqr: true, others: false },
+    { feature: "No watermark", genqr: true, others: false },
+    { feature: "Custom logo upload", genqr: true, others: true },
+    { feature: "Multiple formats (PNG, SVG)", genqr: true, others: true },
+    { feature: "100% Free forever", genqr: true, others: false },
+  ];
+
+  const whyChooseUs = [
+    {
+      title: "100% Free",
+      description: "Generate unlimited QR codes without any cost.",
+      icon: Check,
+    },
+    {
+      title: "No Sign Up",
+      description: "Start creating immediately. No registration.",
+      icon: Check,
+    },
+    {
+      title: "No Watermark",
+      description: "Clean, professional QR codes every time.",
+      icon: Check,
+    },
+    {
+      title: "Privacy Focused",
+      description: "We don&apos;t store or track your data.",
+      icon: Shield,
+    },
   ];
 
   const testimonials = [
     {
-      quote:
-        "QRGen transformed how we run campaigns",
+      quote: "GenQR transformed how we run campaigns. Simple and effective.",
       name: "Sarah Chen",
       role: "Marketing Director",
-      company: "TechCorp",
+      initials: "SC",
     },
     {
-      quote:
-        "Best QR generator we used so far.",
+      quote: "Best QR generator we&apos;ve used. Clean and straightforward.",
       name: "Michael Rodriguez",
       role: "Founder",
-      company: "Startup Owner",
+      initials: "MR",
     },
     {
-      quote:
-        "We use QRGen for digital menus and updates instantly. Customers love it.",
+      quote: "We use GenQR for digital menus. Customers love it.",
       name: "Emily Johnson",
-      role: "Owner",
-      company: "Cafe Delight",
-    },
-  ];
-
-  const pricingPlans = [
-    // {
-    //   name: "Free",
-    //   price: "$0",
-    //   unit: "forever",
-    //   cta: "Get Started",
-    //   featured: false,
-    //   features: ["5 QR codes", "PNG export", "Basic colors", "Community support"],
-    // },
-    {
-      name: "Pro",
-      price: "$9",
-      unit: "/month",
-      cta: "Start Free Trial",
-      featured: true,
-      features: [
-        "Unlimited QR codes",
-        "SVG + PDF export",
-        "Custom logo",
-        "Analytics dashboard",
-        "Dynamic QR codes",
-      ],
-    },
-    {
-      name: "Business",
-      price: "$29",
-      unit: "/month",
-      cta: "Contact Sales",
-      featured: false,
-      features: [
-        "Everything in Pro",
-        "Developer API",
-        "Team collaboration",
-        "White label",
-        "Advanced analytics",
-      ],
+      role: "Restaurant Owner",
+      initials: "EJ",
     },
   ];
 
   return (
-    <div className="font-poppins">
+    <div className="font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
       />
-      {/* Hero Banner with Gradient */}
-      <section className="banner-gradient">
-        <div className="mt-8 md:mt-16 container py-4 md:py-8">
-          <Reveal className="main_heading_content flex justify-center flex-col mb-8 md:mb-12 max-w-7xl mx-auto px-4 md:px-0">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 text-gray-900 leading-tight">
-              {content.heroSection.title}
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-6 md:mb-8 leading-relaxed">
-              {content.heroSection.subheadline}
-            </p>
-          </Reveal>
-          <Reveal className="flex justify-center w-full px-4 md:px-0" delay={0.08}>
-            <div className="input-card w-full max-w-7xl">
+
+      {/* 1. Hero Section - White bg */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left - Content */}
+            <div>
+              <Reveal>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F9FAFB] border border-[#E5E7EB] text-[#6B7280] text-sm font-medium mb-6">
+                  Free &middot; No Sign Up &middot; No Watermark
+                </div>
+              </Reveal>
+              
+              <Reveal delay={0.05}>
+                <h1 className="text-4xl md:text-5xl lg:text-[56px] font-bold text-[#111827] leading-tight mb-6 text-balance">
+                  Generate QR Codes Instantly
+                </h1>
+              </Reveal>
+              
+              <Reveal delay={0.1}>
+                <p className="text-base md:text-lg text-[#6B7280] mb-8 max-w-xl leading-relaxed">
+                  Create high-quality QR codes for URLs, WiFi, vCard, and more. 
+                  Free, fast, and no account needed.
+                </p>
+              </Reveal>
+              
+              <Reveal delay={0.15}>
+                <div className="flex flex-wrap gap-3">
+                  <a 
+                    href="#generator" 
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#4F46E5] text-white font-medium rounded-lg hover:bg-[#4338CA] transition-all hover:scale-[1.02]"
+                  >
+                    Generate QR Code
+                  </a>
+                  <a 
+                    href="/bulk-qr-generator" 
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border border-[#E5E7EB] text-[#6B7280] font-medium rounded-lg hover:border-[#6B7280] hover:text-[#111827] transition-colors"
+                  >
+                    Bulk Generator
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Right - QR Preview Card with float animation */}
+            <Reveal delay={0.2} className="flex justify-center lg:justify-end">
+              <div className="animate-float">
+                <div className="bg-white border border-[#E5E7EB] rounded-2xl p-8 shadow-lg">
+                  <div className="w-48 h-48 mx-auto mb-4">
+                    <Image 
+                      src="/business_qrcode.svg" 
+                      width={192} 
+                      height={192} 
+                      alt="Sample QR Code"
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <p className="text-center text-[#6B7280] text-sm">
+                    Scan to visit genqrgenerator.com
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Generator Widget Section - Off-white bg */}
+      <section id="generator" className="bg-[#F9FAFB] py-16 md:py-20">
+        <div className="container">
+          <Reveal className="max-w-5xl mx-auto">
+            <div className="bg-white border border-[#E5E7EB] rounded-2xl p-6 md:p-8">
               <QRGenerator />
             </div>
           </Reveal>
         </div>
       </section>
 
-      <main className="main_website_content">
-
-        {/* How It Works Section */}
-        <section className="py-12 md:py-16 section-bg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700 mb-4">
-                Simple workflow
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading mb-4 leading-tight">
-                {content.howItWorks.heading}
+      {/* 3. How It Works - Off-white bg */}
+      <section className="bg-[#F9FAFB] py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                How It Works
               </h2>
-              <p className="text-base sm:text-lg text-body max-w-2xl mx-auto leading-relaxed">
-                A focused three-step flow that keeps the process obvious from the first click to the final download.
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p className="text-base md:text-lg text-[#6B7280] max-w-2xl mx-auto">
+                Create your QR code in three simple steps
               </p>
-            </div>
+            </Reveal>
+          </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-5 lg:gap-6">
-              {content.howItWorks.steps.map((step, index) => (
-                <Reveal
-                  key={index}
-                  delay={index * 0.06}
-                  className="group relative overflow-hidden rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.08)]"
-                >
-                  <div className="mb-8 flex items-start justify-between gap-4">
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-700">
-                      {(() => {
-                        const Icon = howItWorksIcons[index] ?? ScanLine;
-                        return <Icon className="h-5 w-5" />;
-                      })()}
-                    </div>
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                      Step 0{index + 1}
-                    </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto relative">
+            {howItWorksSteps.map((step, index) => (
+              <Reveal key={index} delay={index * 0.1} className="relative">
+                <div className="text-center">
+                  {/* Step number with dashed border */}
+                  <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#E5E7EB] flex items-center justify-center mx-auto mb-4">
+                    <span className="text-[#4F46E5] font-semibold">{step.number}</span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-heading mb-3 tracking-tight">
+                  
+                  {/* Icon */}
+                  <div className="w-10 h-10 flex items-center justify-center mx-auto mb-4">
+                    <step.icon className="w-6 h-6 text-[#6B7280]" />
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-[#111827] mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-body text-sm md:text-base leading-7">
+                  <p className="text-[#6B7280] text-sm">
                     {step.description}
                   </p>
-                </Reveal>
-              ))}
-            </div>
+                </div>
+
+                {/* Dashed connector line */}
+                {index < howItWorksSteps.length - 1 && (
+                  <div className="hidden md:block absolute top-6 left-[calc(50%+24px)] w-[calc(100%-48px)] border-t-2 border-dashed border-[#E5E7EB]" />
+                )}
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Features Showcase Section */}
-        <section className="py-12 md:py-16 section-bg-light">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading mb-4 leading-tight">
-                Everything you need, nothing you don't
+      {/* 4. Features Bento Grid - White bg */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Everything You Need
               </h2>
-            </div>
-
-            {/* Top Row - 2 Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
-              {/* Custom Design Studio */}
-              <div className="glass-card p-6 md:p-8">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <Palette className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h3 className="text-lg md:text-xl font-semibold mb-3 text-heading">
-                  Custom Design Studio
-                </h3>
-                <p className="text-body text-sm md:text-base mb-4">
-                  Create stunning QR codes with custom colors, logos, and patterns
-                </p>
-                <div className="flex gap-2">
-                  <div className="w-6 h-6 md:w-7 md:h-7 bg-blue-500 rounded-md"></div>
-                  <div className="w-6 h-6 md:w-7 md:h-7 bg-black rounded-md"></div>
-                  <div className="w-6 h-6 md:w-7 md:h-7 bg-emerald-500 rounded-md"></div>
-                  <div className="w-6 h-6 md:w-7 md:h-7 bg-amber-500 rounded-md"></div>
-                </div>
-              </div>
-
-              {/* Dynamic QR */}
-              <div className="glass-card p-6 md:p-8">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <Zap className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h3 className="text-lg md:text-xl font-semibold mb-3 text-heading">
-                  Dynamic QR
-                </h3>
-                <p className="text-body text-sm md:text-base">
-                  Edit content anytime without reprinting. Update your QR codes on the fly
-                </p>
-              </div>
-            </div>
-
-            {/* Bottom Row - 5 Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
-              {/* 15+ QR Types */}
-              <div className="glass-card p-5 md:p-6">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <FileText className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h4 className="font-semibold text-heading text-sm md:text-base mb-1">15+ QR Types</h4>
-                <p className="text-body text-xs md:text-sm">URL, WiFi, vCard, Menu & more</p>
-              </div>
-
-              {/* Bulk Generator */}
-              <div className="glass-card p-5 md:p-6">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <Grid3X3 className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h4 className="font-semibold text-heading text-sm md:text-base mb-1">Bulk Generator</h4>
-                <p className="text-body text-xs md:text-sm">Generate thousands from CSV</p>
-              </div>
-
-              {/* Multiple Formats */}
-              <div className="glass-card p-5 md:p-6">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <Download className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h4 className="font-semibold text-heading text-sm md:text-base mb-1">Multiple Formats</h4>
-                <p className="text-body text-xs md:text-sm">PNG, SVG, PDF & other formats</p>
-              </div>
-
-              {/* Blog Page */}
-              <div className="glass-card p-5 md:p-6">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <BookOpen className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h4 className="font-semibold text-heading text-sm md:text-base mb-1">Blog & Resources</h4>
-                <p className="text-body text-xs md:text-sm">Tips, guides, and QR code insights</p>
-              </div>
-
-              {/* Analytics */}
-              <div className="glass-card p-5 md:p-6">
-                <div className="flex items-start mb-4">
-                  <div className="bg-slate-100 p-3 rounded-lg">
-                    <BarChart3 className="w-6 h-6 text-slate-700" />
-                  </div>
-                </div>
-                <h4 className="font-semibold text-heading text-sm md:text-base mb-1">Analytics</h4>
-                <p className="text-body text-xs md:text-sm">Track scans and monitor performance</p>
-              </div>
-            </div>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p className="text-base md:text-lg text-[#6B7280] max-w-2xl mx-auto">
+                Powerful features to create professional QR codes
+              </p>
+            </Reveal>
           </div>
-        </section>
 
-        {/* Features Section
-        <section className="py-12 md:py-16 section-bg-light">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading mb-4 leading-tight">
-                {content.featuresSection.heading}
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {content.featuresSection.features.map((feature, index)=> (
-                <div key={index} className="glass-card">
-                  <h3 className="feature_title text-xl font-semibold mb-3 text-heading">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {features.map((feature, index) => (
+              <Reveal key={index} delay={index * 0.05}>
+                <div className="bg-white border border-[#E5E7EB] rounded-xl p-6 hover:border-[#4F46E5] transition-colors group">
+                  <div className="w-10 h-10 flex items-center justify-center mb-4">
+                    <feature.icon className="w-5 h-5 text-[#6B7280]" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#111827] mb-2">
                     {feature.title}
                   </h3>
-                  <p className="feature_description text-body">
+                  <p className="text-[#6B7280] text-sm">
                     {feature.description}
                   </p>
-                </div>  
-              ))}
-            </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </section> */}
+        </div>
+      </section>
 
-        {/* Use Cases Section */}
-        <section className="py-12 md:py-16 section-bg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 mb-4">
-                Where it works best
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading mb-4 leading-tight">
-                {content.useCases.heading}
+      {/* 5. QR Types Row - Off-white bg */}
+      <section className="bg-[#F9FAFB] py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Supported QR Types
               </h2>
-              <p className="text-base sm:text-lg text-body max-w-2xl mx-auto leading-relaxed">
-                Discover how QR codes can transform your business and personal projects
-              </p>
-            </div>
+            </Reveal>
+          </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-5 lg:gap-6">
-              {content.useCases.items.map((item, index) => (
-                <Reveal
-                  key={index}
-                  delay={index * 0.06}
-                  className={[
-                    "rounded-[22px] border p-6 shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.08)]",
-                    useCaseAccents[index % useCaseAccents.length],
-                  ].join(" ")}
-                >
-                  <div className="mb-6 flex items-start justify-between gap-4">
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/70 bg-white text-slate-700 shadow-sm">
-                      {(() => {
-                        const Icon = useCaseIcons[index] ?? Link2;
-                        return <Icon className="h-5 w-5" />;
-                      })()}
-                    </div>
-                    <span className="rounded-full border border-white/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 shadow-sm">
-                      Use case
-                    </span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
+            {qrTypes.map((type, index) => (
+              <Reveal key={index} delay={index * 0.05}>
+                <div className="flex flex-col items-center gap-3 p-4 bg-white border border-[#E5E7EB] rounded-xl">
+                  <type.icon className="w-6 h-6 text-[#6B7280]" />
+                  <span className="text-sm font-medium text-[#6B7280]">{type.label}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Comparison Table - White bg */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Why GenQR?
+              </h2>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p className="text-base md:text-lg text-[#6B7280] max-w-2xl mx-auto">
+                See how we compare to other QR generators
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.1}>
+            <div className="max-w-2xl mx-auto overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr>
+                    <th className="text-left py-4 px-4 text-[#111827] font-semibold border-b border-[#E5E7EB]">
+                      Feature
+                    </th>
+                    <th className="text-center py-4 px-4 text-[#111827] font-semibold border-b border-[#E5E7EB] bg-[#EEF2FF]">
+                      GenQR
+                    </th>
+                    <th className="text-center py-4 px-4 text-[#111827] font-semibold border-b border-[#E5E7EB]">
+                      Others
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonData.map((row, index) => (
+                    <tr key={index}>
+                      <td className="py-4 px-4 text-[#6B7280] border-b border-[#E5E7EB]">
+                        {row.feature}
+                      </td>
+                      <td className="py-4 px-4 text-center border-b border-[#E5E7EB] bg-[#EEF2FF]">
+                        {row.genqr ? (
+                          <Check className="w-5 h-5 text-green-600 mx-auto" />
+                        ) : (
+                          <X className="w-5 h-5 text-[#6B7280] mx-auto" />
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-center border-b border-[#E5E7EB]">
+                        {row.others ? (
+                          <Check className="w-5 h-5 text-green-600 mx-auto" />
+                        ) : (
+                          <X className="w-5 h-5 text-[#6B7280] mx-auto" />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 7. Why Choose Us - Off-white bg */}
+      <section className="bg-[#F9FAFB] py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Why Choose GenQR
+              </h2>
+            </Reveal>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {whyChooseUs.map((item, index) => (
+              <Reveal key={index} delay={index * 0.05}>
+                <div className="bg-white border border-[#E5E7EB] rounded-xl p-6 text-center">
+                  <div className="w-10 h-10 flex items-center justify-center mx-auto mb-4">
+                    <item.icon className="w-5 h-5 text-[#6B7280]" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-heading tracking-tight md:text-2xl">
+                  <h3 className="text-lg font-semibold text-[#111827] mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-body text-sm md:text-base leading-7 max-w-[36rem]">
+                  <p className="text-[#6B7280] text-sm">
                     {item.description}
                   </p>
-                </Reveal>
-              ))}
-            </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Benefits Section */}
-        <section className="py-12 md:py-16 section-bg-light">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] gap-6 md:gap-10 items-start">
-              <div className="rounded-[24px] border border-slate-200 bg-white p-6 md:p-8 shadow-[0_10px_28px_rgba(15,23,42,0.05)]">
-                <div className="mb-8">
-                  <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-600 mb-3">
-                    Why choose us
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-bold text-heading leading-tight">
-                    {content.whyChooseUs.heading}
-                  </h2>
-                </div>
+      {/* 8. Testimonials - White bg */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Trusted by Businesses
+              </h2>
+            </Reveal>
+          </div>
 
-                <div className="space-y-4">
-                  {content.whyChooseUs.reasons.map((reason, index) => (
-                    <div key={index} className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-                      <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
-                        <CheckCircle className="h-4 w-4" />
-                      </span>
-                      <div>
-                        <h3 className="text-lg md:text-xl font-semibold mb-1 text-heading">
-                          {reason.title}
-                        </h3>
-                        <p className="text-body text-sm md:text-base leading-7">{reason.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[24px] border border-slate-200 bg-white p-6 md:p-8 shadow-[0_10px_28px_rgba(15,23,42,0.05)]">
-                <div className="rounded-[20px] border border-slate-200 bg-slate-50 p-6 text-center">
-                  <div className="bg-white p-4 rounded-2xl shadow-md mb-5 inline-block">
-                    <div className="w-32 h-32 rounded-xl flex items-center justify-center">
-                      <Image src="/business_qrcode.svg" width={128} height={128} alt="qrgen_qrcode"/>
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-2 text-heading">
-                    Professional Results
-                  </h3>
-                  <p className="text-body text-sm md:text-base leading-7">
-                    Create QR codes that look great and work flawlessly across all devices and platforms.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <Reveal key={index} delay={index * 0.05}>
+                <div className="bg-white border border-[#E5E7EB] rounded-xl p-6">
+                  <p className="text-[#6B7280] text-base mb-6 leading-relaxed">
+                    &quot;{testimonial.quote}&quot;
                   </p>
-
-                  <div className="mt-6 grid grid-cols-2 gap-3 text-left">
-                    <div className="rounded-xl border border-slate-200 bg-white p-3">
-                      <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Free</p>
-                      <p className="mt-1 text-base font-semibold text-slate-900">Unlimited usage</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                      <span className="text-[#6B7280] text-sm font-medium">
+                        {testimonial.initials}
+                      </span>
                     </div>
-                    <div className="rounded-xl border border-slate-200 bg-white p-3">
-                      <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Output</p>
-                      <p className="mt-1 text-base font-semibold text-slate-900">PNG, SVG, JPEG</p>
+                    <div>
+                      <p className="text-[#111827] font-medium text-sm">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-[#6B7280] text-xs">
+                        {testimonial.role}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Analytics Section */}
-        {/* <section className="py-12 md:py-16 section-bg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="analytics-shell">
-              <div className="mb-8 md:mb-10">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading mb-4 leading-tight">
-                  Track every scan
-                </h2>
-                <p className="text-base sm:text-lg text-body max-w-3xl leading-relaxed">
-                  Get detailed insights into how your QR codes perform with real-time analytics and comprehensive reports.
-                </p>
-              </div>
-
-              <div className="analytics-stats-grid">
-                {analyticsStats.map((item, index) => (
-                  <div key={index} className="analytics-stat-card">
-                    <p className="analytics-stat-value">{item.value}</p>
-                    <p className="analytics-stat-label">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <ul className="analytics-list mt-8">
-                <li><CheckCircle className="h-5 w-5" /> Scans over time</li>
-                <li><CheckCircle className="h-5 w-5" /> Country breakdown</li>
-                <li><CheckCircle className="h-5 w-5" /> Device and browser data</li>
-                <li><CheckCircle className="h-5 w-5" /> Hourly heatmap</li>
-              </ul>
-            </div>
-          </div>
-        </section> */}
-
-        {/* Testimonials Section */}
-        <section className="py-12 md:py-16 section-bg-light">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading leading-tight">
-                Loved by businesses worldwide
+      {/* 9. FAQ - Off-white bg */}
+      <section className="bg-[#F9FAFB] py-16 md:py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#111827] mb-4">
+                Frequently Asked Questions
               </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {testimonials.map((item, index) => (
-                <Reveal key={index} delay={index * 0.06} className="testimonial-card">
-                  <div className="flex gap-1 mb-4 text-blue-600">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="testimonial-quote">&quot;{item.quote}&quot;</p>
-                  <div>
-                    <p className="testimonial-name">{item.name}</p>
-                    <p className="testimonial-role">{item.role}</p>
-                    <p className="testimonial-role">{item.company}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            </Reveal>
           </div>
-        </section>
 
-        {/* Pricing Section */}
-        {/* <section className="py-12 md:py-16 section-bg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading mb-4 leading-tight">
-                Simple, transparent pricing
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-              {pricingPlans.map((plan) => (
-                <div
-                  key={plan.name}
-                  className={`pricing-card ${plan.featured ? "pricing-card-featured" : ""}`}
-                >
-                  {plan.featured && <span className="pricing-badge">Most Popular</span>}
-                  <p className="pricing-name">{plan.name}</p>
-                  <div className="mb-6">
-                    
-                    <span className="pricing-price">0$</span>
-                    <span className="text-2xl font-light line-through mx-2">{plan.price}</span>
-                    <span className="pricing-unit">{plan.unit}</span>
-                  </div>
-                  <button
-                    className={`w-full rounded-xl px-4 py-3 font-semibold transition-colors ${
-                      plan.featured
-                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-                    }`}
-                  >
-                    {plan.cta}
-                  </button>
-                  <ul className="pricing-list">
-                    {plan.features.map((feature) => (
-                      <li key={feature}>
-                        <Check className="h-4 w-4" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+          <div className="max-w-2xl mx-auto">
+            <FAQSection faqs={content.faqSection.faqs} />
           </div>
-        </section> */}
-
-        {/* FAQ Section */}
-        <section className="py-12 md:py-16 section-bg">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading mb-4 leading-tight">
-                {content.faqSection.heading}
-              </h2>
-              <p className="text-base sm:text-lg text-body leading-relaxed">
-                Everything you need to know about QR codes
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              {content.faqSection.faqs.map((faq, index) => (
-                <Reveal key={index} delay={index * 0.04} className="faq_item glass-card">
-                  <h3 className="faq_question text-xl font-semibold mb-2 text-heading">
-                    {faq.question}
-                  </h3>
-                  <p className="faq_answer text-body">{faq.answer}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-      </main>
+        </div>
+      </section>
     </div>
   );
 }
